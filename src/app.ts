@@ -1,6 +1,7 @@
 import express from "express";
+import { environment } from "./utils/env";
 
-const port = process.env.port || 3000;
+const port = environment.port || 3000;
 
 const app = express();
 
