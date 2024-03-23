@@ -11,6 +11,7 @@ export interface UpdateUserDTO {
   display_name?: string;
   username?: string;
   bio?: string;
+  username_updated_at?: Date;
 }
 
 export interface UserRepository {
