@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { makeUserRepositoryMock } from "../../repositories/user/mock";
 import { makeUpdateUsername } from "./update-username.usecase";
+import dayjs from "dayjs";
 
 describe("update user usecase", () => {
   const userRepository = makeUserRepositoryMock();
@@ -29,6 +30,46 @@ describe("update user usecase", () => {
     });
 
     expect(userRepository.users?.[0]).toHaveProperty("username", "thebar");
+  });
+
+  it("should be able to update username after cooldown", async () => {
+    userRepository.users?.push({
+      id: "abcde",
+      bio: "I love Lady Gaga",
+      username: "gagafan",
+      display_name: "Gaga Fan",
+      created_at: new Date(),
+      updated_at: new Date(),
+      deleted_at: null,
+      username_updated_at: dayjs().subtract(7, "days").toDate(),
+    });
+
+    expect(
+      updateUsername({
+        id: "abcde",
+        username: "thegagafan",
+      })
+    ).resolves.toHaveProperty("username", "thegagafan");
+  });
+
+  it("should not be able to update username inside cooldown", async () => {
+    userRepository.users?.push({
+      id: "fghij",
+      bio: "I love Due Lipa",
+      username: "dualipafan",
+      display_name: "Dua Lipa Fan",
+      created_at: new Date(),
+      updated_at: new Date(),
+      deleted_at: null,
+      username_updated_at: new Date(),
+    });
+
+    expect(
+      updateUsername({
+        id: "fghij",
+        username: "thedualipafan",
+      })
+    ).rejects.toHaveProperty("name", "username_not_able_to_update");
   });
 
   it("should not be able to update unexistent user", async () => {
