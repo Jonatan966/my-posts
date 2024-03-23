@@ -18,9 +18,24 @@ export const userRepository: UserRepository = {
         id: cuid2.createId(),
         display_name: user.display_name,
         username: user.username,
+        bio: user.bio,
       },
     });
 
     return newUser;
+  },
+  async update(user) {
+    const updatedUser = await prisma.user.update({
+      where: {
+        id: user.id,
+      },
+      data: {
+        display_name: user.display_name,
+        username: user.username,
+        bio: user.bio,
+      },
+    });
+
+    return updatedUser;
   },
 };

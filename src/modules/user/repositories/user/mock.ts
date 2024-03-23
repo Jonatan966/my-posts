@@ -29,5 +29,17 @@ export function makeUserRepositoryMock(): UserRepository {
 
       return newUser;
     },
+    async update(updateUserData) {
+      const targetUser = users.findIndex(
+        (user) => user.id === updateUserData.id
+      );
+
+      users[targetUser] = {
+        ...users[targetUser],
+        ...updateUserData,
+      };
+
+      return users[targetUser];
+    },
   };
 }
