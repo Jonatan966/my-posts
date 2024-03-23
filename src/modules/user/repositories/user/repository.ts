@@ -12,6 +12,15 @@ export const userRepository: UserRepository = {
 
     return user;
   },
+  async findOneById(userId) {
+    const user = await prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+    });
+
+    return user;
+  },
   async create(user) {
     const newUser = await prisma.user.create({
       data: {

@@ -12,6 +12,11 @@ export function makeUserRepositoryMock(): UserRepository {
 
       return user || null;
     },
+    async findOneById(userId) {
+      const user = users.find((user) => user.id === userId);
+
+      return user || null;
+    },
     async create(newUserData) {
       const now = new Date();
 

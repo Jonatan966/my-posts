@@ -16,6 +16,7 @@ export interface UpdateUserDTO {
 export interface UserRepository {
   users?: user[];
   findOneByUsername(username: string): Promise<user | null>;
+  findOneById(userId: string): Promise<user | null>;
   create(user: CreateUserDTO): Promise<user>;
   update(user: UpdateUserDTO): Promise<user>;
 }
