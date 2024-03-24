@@ -21,7 +21,16 @@ export function makePostRepositoryMock(): PostRepository {
       return newPost;
     },
     async delete(post_id) {
-      posts = posts.filter((post) => post.id !== post_id);
+      const targetPostIndex = posts.findIndex((post) => post.id === post_id);
+
+      posts.splice(targetPostIndex, 1);
+    },
+    async findOneById(post_id) {
+      const foundPost = posts.find(
+        (post) => post.deleted_at === null && post.id === post_id
+      );
+
+      return foundPost || null;
     },
   };
 }

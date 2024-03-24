@@ -25,4 +25,14 @@ export const postRepository: PostRepository = {
       },
     });
   },
+  async findOneById(post_id) {
+    const foundPost = await prisma.post.findUnique({
+      where: {
+        id: post_id,
+        deleted_at: null,
+      },
+    });
+
+    return foundPost;
+  },
 };
