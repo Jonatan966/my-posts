@@ -14,4 +14,15 @@ export const postRepository: PostRepository = {
 
     return createdPost;
   },
+  async delete(post_id) {
+    await prisma.post.update({
+      where: {
+        id: post_id,
+        deleted_at: null,
+      },
+      data: {
+        deleted_at: new Date(),
+      },
+    });
+  },
 };

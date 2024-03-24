@@ -3,7 +3,7 @@ import { PostRepository } from "./types";
 import cuid2 from "@paralleldrive/cuid2";
 
 export function makePostRepositoryMock(): PostRepository {
-  const posts: post[] = [];
+  let posts: post[] = [];
 
   return {
     posts,
@@ -19,6 +19,9 @@ export function makePostRepositoryMock(): PostRepository {
       posts.push(newPost);
 
       return newPost;
+    },
+    async delete(post_id) {
+      posts = posts.filter((post) => post.id !== post_id);
     },
   };
 }
