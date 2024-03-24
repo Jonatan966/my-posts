@@ -19,6 +19,7 @@ describe("update user usecase", () => {
       created_at: new Date(),
       updated_at: new Date(),
       deleted_at: null,
+      username_updated_at: null,
     });
 
     await updateUser({
