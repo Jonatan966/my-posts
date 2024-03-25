@@ -28,6 +28,7 @@ export function makeUserRepositoryMock(): UserRepository {
         created_at: now,
         updated_at: now,
         deleted_at: null,
+        username_updated_at: null,
       };
 
       users.push(newUser);
