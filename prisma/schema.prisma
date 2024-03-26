@@ -28,6 +28,11 @@ model post {
 
   author user @relation(fields: [author_id], references: [id])
 
+  is_edited           Boolean?
+  original_version_id String?
+  original_version    post?    @relation("post_versions", fields: [original_version_id], references: [id])
+  new_versions        post[]   @relation("post_versions")
+
   created_at DateTime  @default(now())
   deleted_at DateTime?
 }
