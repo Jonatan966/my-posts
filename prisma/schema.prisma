@@ -8,10 +8,10 @@ datasource db {
 }
 
 model user {
-  id           String  @id
-  display_name String
-  username     String  @unique
-  bio          String?
+  id           String  @id @db.VarChar(24)
+  display_name String  @db.VarChar(50)
+  username     String  @unique @db.VarChar(15)
+  bio          String? @db.VarChar(160)
 
   posts post[]
 
@@ -22,14 +22,14 @@ model user {
 }
 
 model post {
-  id        String @id
+  id        String @id @db.VarChar(24)
   content   String
-  author_id String
+  author_id String @db.VarChar(24)
 
   author user @relation(fields: [author_id], references: [id])
 
   is_edited           Boolean?
-  original_version_id String?
+  original_version_id String?  @db.VarChar(24)
   original_version    post?    @relation("post_versions", fields: [original_version_id], references: [id])
   new_versions        post[]   @relation("post_versions")
 
