@@ -19,7 +19,10 @@ export const makeDeletePost = (
       throw new AppError(PostModuleErrors.post_not_found);
     }
 
-    if (foundPost?.author_id !== deletePostData.author_id) {
+    if (
+      foundPost?.author_id !== deletePostData.author_id ||
+      foundPost.is_edited
+    ) {
       throw new AppError(PostModuleErrors.post_not_able_to_delete);
     }
 

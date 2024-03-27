@@ -17,6 +17,8 @@ describe("delete post usecase", () => {
       content: "I love Lady Gaga!",
       created_at: new Date(),
       deleted_at: null,
+      is_edited: false,
+      original_version_id: null,
     });
 
     await deletePost({
@@ -53,6 +55,8 @@ describe("delete post usecase", () => {
         content: "I love Beyoncé!",
         created_at: new Date(),
         deleted_at: null,
+        is_edited: false,
+        original_version_id: null,
       },
       {
         id: "the-fake-id",
@@ -60,6 +64,8 @@ describe("delete post usecase", () => {
         content: "I love Ellie Goulding!",
         created_at: new Date(),
         deleted_at: null,
+        is_edited: false,
+        original_version_id: null,
       }
     );
 
@@ -67,6 +73,25 @@ describe("delete post usecase", () => {
       deletePost({
         author_id: "the-bang-id",
         post_id: "the-bla-id",
+      })
+    ).rejects.toHaveProperty("name", "post_not_able_to_delete");
+  });
+
+  it("should not be able to delete old post version", async () => {
+    postRepository.posts?.push({
+      id: "the-old-id",
+      author_id: "the-big-id",
+      content: "I love Ava Max!",
+      created_at: new Date(),
+      deleted_at: null,
+      is_edited: true,
+      original_version_id: "the-bob-id",
+    });
+
+    expect(
+      deletePost({
+        author_id: "the-big-id",
+        post_id: "the-old-id",
       })
     ).rejects.toHaveProperty("name", "post_not_able_to_delete");
   });
