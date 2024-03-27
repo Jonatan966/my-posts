@@ -14,6 +14,8 @@ export function makePostRepositoryMock(): PostRepository {
         author_id: postData.author_id,
         created_at: new Date(),
         deleted_at: null,
+        is_edited: false,
+        original_version_id: postData.original_version_id || null,
       };
 
       posts.push(newPost);
@@ -31,6 +33,13 @@ export function makePostRepositoryMock(): PostRepository {
       );
 
       return foundPost || null;
+    },
+    async update(post) {
+      const foundPost = posts.find((p) => p.id === post.id)!;
+
+      foundPost.is_edited = post.is_edited || false;
+
+      return foundPost;
     },
   };
 }

@@ -9,6 +9,7 @@ export const postRepository: PostRepository = {
         id: cuid2.createId(),
         content: postData.content,
         author_id: postData.author_id,
+        original_version_id: postData.original_version_id,
       },
     });
 
@@ -34,5 +35,17 @@ export const postRepository: PostRepository = {
     });
 
     return foundPost;
+  },
+  async update(post) {
+    const updatedPost = await prisma.post.update({
+      where: {
+        id: post.id,
+      },
+      data: {
+        is_edited: post.is_edited,
+      },
+    });
+
+    return updatedPost;
   },
 };
