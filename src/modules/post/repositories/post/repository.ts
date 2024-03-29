@@ -16,10 +16,17 @@ export const postRepository: PostRepository = {
     return createdPost;
   },
   async delete(post_id) {
-    await prisma.post.update({
+    await prisma.post.updateMany({
       where: {
-        id: post_id,
         deleted_at: null,
+        OR: [
+          {
+            original_version_id: post_id,
+          },
+          {
+            id: post_id,
+          },
+        ],
       },
       data: {
         deleted_at: new Date(),

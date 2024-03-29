@@ -23,9 +23,18 @@ export function makePostRepositoryMock(): PostRepository {
       return newPost;
     },
     async delete(post_id) {
-      const targetPostIndex = posts.findIndex((post) => post.id === post_id);
+      for (let postIndex = posts.length - 1; postIndex >= 0; postIndex--) {
+        const currentPost = posts[postIndex];
 
-      posts.splice(targetPostIndex, 1);
+        if (
+          currentPost.id !== post_id &&
+          currentPost.original_version_id !== post_id
+        ) {
+          continue;
+        }
+
+        posts.splice(postIndex, 1);
+      }
     },
     async findOneById(post_id) {
       const foundPost = posts.find(

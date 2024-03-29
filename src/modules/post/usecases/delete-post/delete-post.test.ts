@@ -29,6 +29,54 @@ describe("delete post usecase", () => {
     expect(postRepository.posts).toHaveLength(0);
   });
 
+  it("should be able to delete all versions of edited post", async () => {
+    postRepository.posts?.push(
+      {
+        id: "the-last-version-id",
+        author_id: "the-user-id",
+        content: "I love Lady Gaga more!",
+        created_at: new Date(),
+        deleted_at: null,
+        is_edited: false,
+        original_version_id: "the-first-version-id",
+      },
+      {
+        id: "the-second-version-id",
+        author_id: "the-user-id",
+        content: "I love Lady Gaga more!",
+        created_at: new Date(),
+        deleted_at: null,
+        is_edited: true,
+        original_version_id: "the-first-version-id",
+      },
+      {
+        id: "the-random-post",
+        author_id: "fulano",
+        content: "COWBOY CARTER by Beyoncé releases today!",
+        created_at: new Date(),
+        deleted_at: null,
+        is_edited: false,
+        original_version_id: null,
+      },
+      {
+        id: "the-first-version-id",
+        author_id: "the-user-id",
+        content: "I love Lady Gaga more!",
+        created_at: new Date(),
+        deleted_at: null,
+        is_edited: true,
+        original_version_id: null,
+      }
+    );
+
+    await deletePost({
+      author_id: "the-user-id",
+      post_id: "the-last-version-id",
+    });
+
+    expect(postRepository.posts).toHaveLength(1);
+  });
+
   it("should not be able to delete a previous deleted post", async () => {
     expect(
       deletePost({

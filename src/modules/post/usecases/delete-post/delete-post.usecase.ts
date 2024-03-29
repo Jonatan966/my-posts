@@ -26,7 +26,7 @@ export const makeDeletePost = (
       throw new AppError(PostModuleErrors.post_not_able_to_delete);
     }
 
-    await deletePost(deletePostData.post_id);
+    await deletePost(foundPost.original_version_id || deletePostData.post_id);
   };
 };
 
