@@ -20,6 +20,7 @@ describe("edit post usecase", () => {
       deleted_at: null,
       is_edited: false,
       original_version_id: null,
+      reposted_post_id: null,
     });
 
     await editPost({
@@ -59,6 +60,7 @@ describe("edit post usecase", () => {
       deleted_at: null,
       is_edited: false,
       original_version_id: null,
+      reposted_post_id: null,
     });
 
     expect(

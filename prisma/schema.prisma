@@ -33,6 +33,10 @@ model post {
   original_version    post?    @relation("post_versions", fields: [original_version_id], references: [id])
   new_versions        post[]   @relation("post_versions")
 
+  reposted_post_id String? @db.VarChar(24)
+  reposted_post    post?   @relation("reposts", fields: [reposted_post_id], references: [id])
+  reposts          post[]  @relation("reposts")
+
   created_at DateTime  @default(now())
   deleted_at DateTime?
 }

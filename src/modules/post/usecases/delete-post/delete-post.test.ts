@@ -19,6 +19,7 @@ describe("delete post usecase", () => {
       deleted_at: null,
       is_edited: false,
       original_version_id: null,
+      reposted_post_id: null,
     });
 
     await deletePost({
@@ -39,6 +40,7 @@ describe("delete post usecase", () => {
         deleted_at: null,
         is_edited: false,
         original_version_id: "the-first-version-id",
+        reposted_post_id: null,
       },
       {
         id: "the-second-version-id",
@@ -48,6 +50,7 @@ describe("delete post usecase", () => {
         deleted_at: null,
         is_edited: true,
         original_version_id: "the-first-version-id",
+        reposted_post_id: null,
       },
       {
         id: "the-random-post",
@@ -57,6 +60,7 @@ describe("delete post usecase", () => {
         deleted_at: null,
         is_edited: false,
         original_version_id: null,
+        reposted_post_id: null,
       },
       {
         id: "the-first-version-id",
@@ -66,6 +70,7 @@ describe("delete post usecase", () => {
         deleted_at: null,
         is_edited: true,
         original_version_id: null,
+        reposted_post_id: null,
       }
     );
 
@@ -105,6 +110,7 @@ describe("delete post usecase", () => {
         deleted_at: null,
         is_edited: false,
         original_version_id: null,
+        reposted_post_id: null,
       },
       {
         id: "the-fake-id",
@@ -114,6 +120,7 @@ describe("delete post usecase", () => {
         deleted_at: null,
         is_edited: false,
         original_version_id: null,
+        reposted_post_id: null,
       }
     );
 
@@ -134,6 +141,7 @@ describe("delete post usecase", () => {
       deleted_at: null,
       is_edited: true,
       original_version_id: "the-bob-id",
+      reposted_post_id: null,
     });
 
     expect(
