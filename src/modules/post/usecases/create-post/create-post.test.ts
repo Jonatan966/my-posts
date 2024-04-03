@@ -9,6 +9,7 @@ describe("create post usecase", () => {
 
   const createPost = makeCreatePost(
     postRepository.create,
+    postRepository.findOneById,
     userRepository.findOneById
   );
 
@@ -36,6 +37,58 @@ describe("create post usecase", () => {
       "content",
       "Good morning!"
     );
+  });
+
+  it("should be able to repost a post", async () => {
+    postRepository.posts?.push({
+      id: "the-post-id",
+      author_id: "the-jonas-id",
+      content: "Bla bla",
+      created_at: new Date(),
+      deleted_at: null,
+      is_edited: false,
+      original_version_id: null,
+      reposted_post_id: null,
+    });
+
+    await expect(
+      createPost({
+        author_id: "the-id",
+        content: "Haha soo good!",
+        reposted_post_id: "the-post-id",
+      })
+    ).resolves.toHaveProperty("reposted_post_id", "the-post-id");
+  });
+
+  it("should not be able to repost a nonexistent post", async () => {
+    expect(
+      createPost({
+        author_id: "the-id",
+        content: "Good night!",
+        reposted_post_id: "the-foo-id",
+      })
+    ).rejects.toHaveProperty("name", "reposted_post_not_found");
+  });
+
+  it("should not be able to repost a old version of post", async () => {
+    postRepository.posts?.push({
+      id: "the-blabla-id",
+      author_id: "the-id",
+      content: "Foo",
+      created_at: new Date(),
+      deleted_at: null,
+      is_edited: true,
+      original_version_id: null,
+      reposted_post_id: null,
+    });
+
+    expect(
+      createPost({
+        author_id: "the-id",
+        content: "Good night!",
+        reposted_post_id: "the-blabla-id",
+      })
+    ).rejects.toHaveProperty("name", "post_not_able_to_repost");
   });
 
   it("should not be able to create post for nonexistent user", async () => {
