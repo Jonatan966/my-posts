@@ -85,6 +85,90 @@ describe("create post usecase", () => {
     ).resolves.toHaveProperty("reposted_post_id", "the-another-post-id");
   });
 
+  it("should be able to comment a post", async () => {
+    postRepository.posts?.push({
+      id: "jpvfqd2e",
+      author_id: "the-jonas-id",
+      content: "Lady Gaga is comming!!",
+      created_at: new Date(),
+      deleted_at: null,
+      is_edited: false,
+      original_version_id: null,
+      reposted_post_id: null,
+      parent_post_id: null,
+      root_post_id: null,
+    });
+
+    await expect(
+      createPost({
+        author_id: "the-id",
+        content: "Haha lol!",
+        parent_post_id: "jpvfqd2e",
+      })
+    ).resolves.toEqual(
+      expect.objectContaining({
+        parent_post_id: "jpvfqd2e",
+        root_post_id: "jpvfqd2e",
+      })
+    );
+  });
+
+  it("should be able to comment a comment", async () => {
+    postRepository.posts?.push({
+      id: "rxebmkhk",
+      author_id: "the-jonas-id",
+      content: "Beyoncé is comming!!",
+      created_at: new Date(),
+      deleted_at: null,
+      is_edited: false,
+      original_version_id: null,
+      reposted_post_id: null,
+      parent_post_id: "jpvfqd2e",
+      root_post_id: "jpvfqd2e",
+    });
+
+    await expect(
+      createPost({
+        author_id: "the-id",
+        content: "Haha yessss!",
+        parent_post_id: "rxebmkhk",
+      })
+    ).resolves.toEqual(
+      expect.objectContaining({
+        parent_post_id: "rxebmkhk",
+        root_post_id: "jpvfqd2e",
+      })
+    );
+  });
+
+  it("should be able to comment a repost with content", async () => {
+    postRepository.posts?.push({
+      id: "gua5wsdd",
+      author_id: "the-jonas-id",
+      content: "Britney Spears!!",
+      created_at: new Date(),
+      deleted_at: null,
+      is_edited: false,
+      original_version_id: null,
+      reposted_post_id: "the-post-id",
+      parent_post_id: null,
+      root_post_id: null,
+    });
+
+    await expect(
+      createPost({
+        author_id: "the-id",
+        content: "I love soo much!",
+        parent_post_id: "gua5wsdd",
+      })
+    ).resolves.toEqual(
+      expect.objectContaining({
+        parent_post_id: "gua5wsdd",
+        root_post_id: "gua5wsdd",
+      })
+    );
+  });
+
   it("should not be able to repost a nonexistent post", async () => {
     expect(
       createPost({
@@ -148,5 +232,38 @@ describe("create post usecase", () => {
         reposted_post_id: "the-bla-id",
       })
     ).rejects.toHaveProperty("name", "repost_without_content");
+  });
+
+  it("should not be able to comment a nonexistent parent post", async () => {
+    expect(
+      createPost({
+        author_id: "the-id",
+        content: "Good night!",
+        parent_post_id: "the-nonexistent",
+      })
+    ).rejects.toHaveProperty("name", "parent_post_not_found");
+  });
+
+  it("should not be able to comment a old version of parent post", async () => {
+    postRepository.posts?.push({
+      id: "the-old-id",
+      author_id: "the-jonas-id",
+      content: "Good!",
+      created_at: new Date(),
+      deleted_at: null,
+      is_edited: true,
+      original_version_id: null,
+      reposted_post_id: null,
+      parent_post_id: null,
+      root_post_id: null,
+    });
+
+    expect(
+      createPost({
+        author_id: "the-id",
+        content: "Kim Petras!",
+        parent_post_id: "the-old-id",
+      })
+    ).rejects.toHaveProperty("name", "parent_post_not_able_to_comment");
   });
 });

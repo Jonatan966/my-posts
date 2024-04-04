@@ -11,6 +11,8 @@ export const postRepository: PostRepository = {
         author_id: postData.author_id,
         original_version_id: postData.original_version_id,
         reposted_post_id: postData.reposted_post_id,
+        parent_post_id: postData.parent_post_id,
+        root_post_id: postData.root_post_id,
       },
     });
 

@@ -3,6 +3,8 @@ import { ErrorProps } from "../../utils/error";
 export enum PostModuleErrorType {
   PostNotFound = "post_not_found",
   RepostedPostNotFound = "reposted_post_not_found",
+  ParentPostNotFound = "parent_post_not_found",
+  ParentPostNotAbleToComment = "parent_post_not_able_to_comment",
   RepostWithoutContent = "repost_without_content",
   PostNotAbleToRepost = "post_not_able_to_repost",
   PostNotAbleToDelete = "post_not_able_to_delete",
@@ -20,6 +22,16 @@ export const PostModuleErrors: Record<PostModuleErrorType, ErrorProps> = {
     name: PostModuleErrorType.RepostedPostNotFound,
     message: "Reposted post not found",
     statusCode: 400,
+  },
+  [PostModuleErrorType.ParentPostNotFound]: {
+    name: PostModuleErrorType.ParentPostNotFound,
+    message: "Parent post not found",
+    statusCode: 400,
+  },
+  [PostModuleErrorType.ParentPostNotAbleToComment]: {
+    name: PostModuleErrorType.ParentPostNotAbleToComment,
+    message: "You not have permission to comment this post",
+    statusCode: 401,
   },
   [PostModuleErrorType.PostNotAbleToRepost]: {
     name: PostModuleErrorType.PostNotAbleToRepost,

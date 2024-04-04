@@ -5,6 +5,8 @@ interface CreatePostDTO {
   author_id: string;
   original_version_id?: string;
   reposted_post_id?: string;
+  parent_post_id?: string;
+  root_post_id?: string;
 }
 
 interface UpdatePostDTO {

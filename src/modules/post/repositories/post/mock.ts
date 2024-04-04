@@ -17,8 +17,8 @@ export function makePostRepositoryMock(): PostRepository {
         is_edited: false,
         original_version_id: postData.original_version_id || null,
         reposted_post_id: postData.reposted_post_id || null,
-        parent_post_id: null,
-        root_post_id: null,
+        parent_post_id: postData.parent_post_id || null,
+        root_post_id: postData.root_post_id || null,
       };
 
       posts.push(newPost);
