@@ -49,6 +49,8 @@ describe("create post usecase", () => {
       is_edited: false,
       original_version_id: null,
       reposted_post_id: null,
+      parent_post_id: null,
+      root_post_id: null,
     });
 
     await expect(
@@ -70,6 +72,8 @@ describe("create post usecase", () => {
       is_edited: false,
       original_version_id: null,
       reposted_post_id: null,
+      parent_post_id: null,
+      root_post_id: null,
     });
 
     await expect(
@@ -101,6 +105,8 @@ describe("create post usecase", () => {
       is_edited: true,
       original_version_id: null,
       reposted_post_id: null,
+      parent_post_id: null,
+      root_post_id: null,
     });
 
     expect(
@@ -131,6 +137,8 @@ describe("create post usecase", () => {
       is_edited: false,
       original_version_id: null,
       reposted_post_id: "the-repost-id",
+      parent_post_id: null,
+      root_post_id: null,
     });
 
     expect(

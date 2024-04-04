@@ -37,6 +37,15 @@ model post {
   reposted_post    post?   @relation("reposts", fields: [reposted_post_id], references: [id])
   reposts          post[]  @relation("reposts")
 
+  root_post_id   String? @db.VarChar(24)
+  parent_post_id String? @db.VarChar(24)
+
+  parent_post post?  @relation("comments", fields: [parent_post_id], references: [id])
+  comments    post[] @relation("comments")
+
+  root_post     post?  @relation("flat_comments", fields: [root_post_id], references: [id])
+  flat_comments post[] @relation("flat_comments")
+
   created_at DateTime  @default(now())
   deleted_at DateTime?
 }
