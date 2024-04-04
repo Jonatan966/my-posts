@@ -50,6 +50,7 @@ export function makePostRepositoryMock(): PostRepository {
       const foundPost = posts.find((p) => p.id === post.id)!;
 
       foundPost.is_edited = post.is_edited || false;
+      foundPost.content = post.content || foundPost.content;
 
       return foundPost;
     },

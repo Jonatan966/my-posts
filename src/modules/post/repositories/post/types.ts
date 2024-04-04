@@ -12,6 +12,7 @@ interface CreatePostDTO {
 interface UpdatePostDTO {
   id: string;
   is_edited?: boolean;
+  content?: string;
 }
 
 export interface PostRepository {

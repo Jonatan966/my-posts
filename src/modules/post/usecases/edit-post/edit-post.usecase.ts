@@ -29,11 +29,23 @@ export const makeEditPost = (
       throw new AppError(PostModuleErrors.post_already_edited);
     }
 
+    const isRepostWithoutContent =
+      foundPost.reposted_post_id && !foundPost.content && !!editPayload.content;
+
+    if (isRepostWithoutContent) {
+      return await updatePost({
+        id: foundPost.id,
+        content: editPayload.content,
+      });
+    }
+
     const [newPostVersion] = await Promise.all([
       createPost({
         author_id: foundPost.author_id,
         content: editPayload.content,
         original_version_id: foundPost.id,
+        parent_post_id: foundPost.parent_post_id || undefined,
+        root_post_id: foundPost.root_post_id || undefined,
       }),
       updatePost({
         id: foundPost.id,

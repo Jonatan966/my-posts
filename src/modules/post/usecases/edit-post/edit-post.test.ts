@@ -43,6 +43,29 @@ describe("edit post usecase", () => {
     );
   });
 
+  it("should be able to edit a repost without content", async () => {
+    postRepository.posts?.push({
+      id: "azyipor0",
+      author_id: "the-jonas-id",
+      content: "",
+      created_at: new Date(),
+      deleted_at: null,
+      is_edited: false,
+      original_version_id: null,
+      reposted_post_id: "the-post-id",
+      parent_post_id: null,
+      root_post_id: null,
+    });
+
+    await expect(
+      editPost({
+        id: "azyipor0",
+        author_id: "the-jonas-id",
+        content: "Katy Perry!",
+      })
+    ).resolves.toHaveProperty("id", "azyipor0");
+  });
+
   it("should not be able to edit nonexistent post", async () => {
     expect(
       editPost({

@@ -22,6 +22,7 @@
   - [x] Não deve ser possível republicar um post que não existe
   - [x] Não deve ser possível republicar um post já republicado que não tenha conteúdo
 - [x] Deve ser possível editar um post
+  - [x] Deve ser possível editar uma republicação sem conteúdo (substituindo a versão atual)
   - [x] Não deve ser possível editar um post que não existe
   - [x] Não deve ser possível editar uma versão antiga de um post
 - [x] Deve ser possível comentar um post

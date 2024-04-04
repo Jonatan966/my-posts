@@ -53,6 +53,7 @@ export const postRepository: PostRepository = {
       },
       data: {
         is_edited: post.is_edited,
+        content: post.content,
       },
     });
 
