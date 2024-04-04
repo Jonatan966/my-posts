@@ -20,6 +20,7 @@
   - [x] Não deve ser possível excluir um post de outro usuário
 - [x] Deve ser possível republicar um post
   - [x] Não deve ser possível republicar um post que não existe
+  - [x] Não deve ser possível republicar um post já republicado que não tenha conteúdo
 
 # Rascunhos
 

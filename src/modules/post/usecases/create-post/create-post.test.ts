@@ -60,6 +60,27 @@ describe("create post usecase", () => {
     ).resolves.toHaveProperty("reposted_post_id", "the-post-id");
   });
 
+  it("should be able to repost a post without content", async () => {
+    postRepository.posts?.push({
+      id: "the-another-post-id",
+      author_id: "the-jonas-id",
+      content: "",
+      created_at: new Date(),
+      deleted_at: null,
+      is_edited: false,
+      original_version_id: null,
+      reposted_post_id: null,
+    });
+
+    await expect(
+      createPost({
+        author_id: "the-id",
+        content: "Haha lmfao!",
+        reposted_post_id: "the-another-post-id",
+      })
+    ).resolves.toHaveProperty("reposted_post_id", "the-another-post-id");
+  });
+
   it("should not be able to repost a nonexistent post", async () => {
     expect(
       createPost({
@@ -98,5 +119,26 @@ describe("create post usecase", () => {
         content: "Good night!",
       })
     ).rejects.toHaveProperty("name", "user_not_found");
+  });
+
+  it("should not be able to repost a repost without content", async () => {
+    postRepository.posts?.push({
+      id: "the-bla-id",
+      author_id: "the-jonas-id",
+      content: "",
+      created_at: new Date(),
+      deleted_at: null,
+      is_edited: false,
+      original_version_id: null,
+      reposted_post_id: "the-repost-id",
+    });
+
+    expect(
+      createPost({
+        author_id: "the-id",
+        content: "Good night!",
+        reposted_post_id: "the-bla-id",
+      })
+    ).rejects.toHaveProperty("name", "repost_without_content");
   });
 });

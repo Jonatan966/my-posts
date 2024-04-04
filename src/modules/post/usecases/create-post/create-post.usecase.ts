@@ -34,6 +34,10 @@ export const makeCreatePost = (
       if (repostedPost.is_edited) {
         throw new AppError(PostModuleErrors.post_not_able_to_repost);
       }
+
+      if (repostedPost.reposted_post_id && !repostedPost.content) {
+        throw new AppError(PostModuleErrors.repost_without_content);
+      }
     }
 
     const createdPost = await createPost({
