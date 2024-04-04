@@ -10,6 +10,7 @@ export enum PostModuleErrorType {
   PostNotAbleToDelete = "post_not_able_to_delete",
   PostNotAbleToEdit = "post_not_able_to_edit",
   PostAlreadyEdited = "post_already_edited",
+  ParentRepostWithoutContent = "parent_repost_without_content",
 }
 
 export const PostModuleErrors: Record<PostModuleErrorType, ErrorProps> = {
@@ -41,6 +42,11 @@ export const PostModuleErrors: Record<PostModuleErrorType, ErrorProps> = {
   [PostModuleErrorType.RepostWithoutContent]: {
     name: PostModuleErrorType.RepostWithoutContent,
     message: "This target repost not have content",
+    statusCode: 400,
+  },
+  [PostModuleErrorType.ParentRepostWithoutContent]: {
+    name: PostModuleErrorType.ParentRepostWithoutContent,
+    message: "This target parent repost not have content",
     statusCode: 400,
   },
   [PostModuleErrorType.PostNotAbleToDelete]: {

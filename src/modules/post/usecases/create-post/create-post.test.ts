@@ -266,4 +266,27 @@ describe("create post usecase", () => {
       })
     ).rejects.toHaveProperty("name", "parent_post_not_able_to_comment");
   });
+
+  it("should not be able to comment a repost without content", async () => {
+    postRepository.posts?.push({
+      id: "3edzafrd",
+      author_id: "the-jonas-id",
+      content: "",
+      created_at: new Date(),
+      deleted_at: null,
+      is_edited: false,
+      original_version_id: null,
+      reposted_post_id: "the-repost-id",
+      parent_post_id: null,
+      root_post_id: null,
+    });
+
+    expect(
+      createPost({
+        author_id: "the-id",
+        content: "Good night!",
+        parent_post_id: "3edzafrd",
+      })
+    ).rejects.toHaveProperty("name", "parent_repost_without_content");
+  });
 });

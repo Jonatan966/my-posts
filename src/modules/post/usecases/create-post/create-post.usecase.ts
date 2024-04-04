@@ -54,6 +54,10 @@ export const makeCreatePost = (
       if (parentPost.is_edited) {
         throw new AppError(PostModuleErrors.parent_post_not_able_to_comment);
       }
+
+      if (parentPost.reposted_post_id && !parentPost.content) {
+        throw new AppError(PostModuleErrors.parent_repost_without_content);
+      }
     }
 
     const createdPost = await createPost({
