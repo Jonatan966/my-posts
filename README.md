@@ -33,3 +33,19 @@
 # Rascunhos
 
 - Armazenar os usernames antigos no Redis para permanecer por pelo menos 1 mês
+- Estudar sobre paginação via token
+
+# Rotas
+
+- Users
+  GET /users
+  POST /users
+  GET /users/usuariotal
+  PUT /users/usuariotal
+  PATCH /users/usuariotal/username
+
+- Posts
+  GET /posts
+  POST /posts
+  GET /posts/post-tal
+  GET /posts/post-tal/comments
