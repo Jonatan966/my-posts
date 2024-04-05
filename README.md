@@ -39,13 +39,16 @@
 
 - Users
   GET /users
-  POST /users
-  GET /users/usuariotal
-  PUT /users/usuariotal
-  PATCH /users/usuariotal/username
+
+  - [x] POST /users
+  - [x] GET /users/usuariotal
+  - [] PUT /users/usuariotal
+  - [] PATCH /users/usuariotal/username
 
 - Posts
-  GET /posts
-  POST /posts
-  GET /posts/post-tal
-  GET /posts/post-tal/comments
+  - [] GET /posts
+  - [x] POST /posts
+  - [x] GET /posts/post-tal
+  - [] PUT /posts/post-tal
+  - [] DELETE /posts/post-tal
+  - [] GET /posts/post-tal/comments
