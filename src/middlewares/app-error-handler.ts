@@ -1,5 +1,6 @@
 import { NextFunction, Request, RequestHandler, Response } from "express";
 import { AppError } from "../utils/error";
+import { ZodError } from "zod";
 
 function appErrorHandler(controller: RequestHandler) {
   return async (request: Request, response: Response, next: NextFunction) => {
@@ -7,6 +8,16 @@ function appErrorHandler(controller: RequestHandler) {
       return await controller(request, response, next);
     } catch (rawError) {
       const error = rawError as AppError;
+
+      if (error instanceof ZodError) {
+        return response.status(400).json({
+          error: {
+            message: "Validation error",
+            code: "validation_error",
+            details: error.errors,
+          },
+        });
+      }
 
       return response.status(error?.statusCode || 500).json({
         error: {
