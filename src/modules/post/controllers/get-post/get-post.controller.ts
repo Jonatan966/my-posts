@@ -7,7 +7,7 @@ export const getPostController = async (
   response: Response
 ) => {
   const paramsSchema = z.object({
-    post_id: z.string(),
+    post_id: z.string().cuid2(),
   });
 
   const params = await paramsSchema.parseAsync(request.params);
