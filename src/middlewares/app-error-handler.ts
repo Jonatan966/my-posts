@@ -1,16 +1,21 @@
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Request, RequestHandler, Response } from "express";
 import { AppError } from "../utils/error";
 
-export function appErrorHandler(
-  error: AppError,
-  _: Request,
-  res: Response,
-  _2: NextFunction
-) {
-  return res.status(error?.statusCode || 500).json({
-    error: {
-      message: error?.message || "Unknown error",
-      code: error?.name || "unknown",
-    },
-  });
+function appErrorHandler(controller: RequestHandler) {
+  return async (request: Request, response: Response, next: NextFunction) => {
+    try {
+      return await controller(request, response, next);
+    } catch (rawError) {
+      const error = rawError as AppError;
+
+      return response.status(error?.statusCode || 500).json({
+        error: {
+          message: error?.message || "Unknown error",
+          code: error?.name || "unknown",
+        },
+      });
+    }
+  };
 }
+
+export { appErrorHandler };
