@@ -1,9 +1,9 @@
 import { z } from "zod";
 import { getPost } from "../../usecases/get-post/get-post.usecase";
 import { listPosts } from "../../usecases/list-posts/list-posts.usecase";
-import { appErrorHandler } from "../../../../middlewares/app-error-handler";
+import { safeController } from "../../../../middlewares/safe-controller";
 
-export const listPostCommentsController = appErrorHandler(
+export const listPostCommentsController = safeController(
   async (request, response) => {
     const paramsSchema = z.object({
       post_id: z.string().cuid2(),

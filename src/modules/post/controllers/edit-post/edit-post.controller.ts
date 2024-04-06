@@ -1,8 +1,8 @@
 import { z } from "zod";
 import { editPost } from "../../usecases/edit-post/edit-post.usecase";
-import { appErrorHandler } from "../../../../middlewares/app-error-handler";
+import { safeController } from "../../../../middlewares/safe-controller";
 
-export const editPostController = appErrorHandler(async (request, response) => {
+export const editPostController = safeController(async (request, response) => {
   const paramsSchema = z.object({
     post_id: z.string().cuid2(),
   });

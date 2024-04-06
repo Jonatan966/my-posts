@@ -1,8 +1,8 @@
 import { createUser } from "../../usecases/create-user/create-user.usecase";
 import { z } from "zod";
-import { appErrorHandler } from "../../../../middlewares/app-error-handler";
+import { safeController } from "../../../../middlewares/safe-controller";
 
-export const createUserController = appErrorHandler(
+export const createUserController = safeController(
   async (request, response) => {
     const userSchema = z.object({
       display_name: z.string(),

@@ -1,9 +1,9 @@
 import { updateUser } from "../../usecases/update-user/update-user.usecase";
 import { z } from "zod";
 import { getUserByUsername } from "../../usecases/get-user-by-username/get-user-by-username.usecase";
-import { appErrorHandler } from "../../../../middlewares/app-error-handler";
+import { safeController } from "../../../../middlewares/safe-controller";
 
-export const updateUserController = appErrorHandler(
+export const updateUserController = safeController(
   async (request, response) => {
     const paramsSchema = z.object({
       username: z.string(),

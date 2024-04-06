@@ -1,7 +1,7 @@
 import { listPosts } from "../../usecases/list-posts/list-posts.usecase";
-import { appErrorHandler } from "../../../../middlewares/app-error-handler";
+import { safeController } from "../../../../middlewares/safe-controller";
 
-export const listPostsController = appErrorHandler(async (_, response) => {
+export const listPostsController = safeController(async (_, response) => {
   const posts = await listPosts();
 
   return response.json({ posts });

@@ -1,8 +1,8 @@
 import { z } from "zod";
 import { deletePost } from "../../usecases/delete-post/delete-post.usecase";
-import { appErrorHandler } from "../../../../middlewares/app-error-handler";
+import { safeController } from "../../../../middlewares/safe-controller";
 
-export const deletePostController = appErrorHandler(
+export const deletePostController = safeController(
   async (request, response) => {
     const paramsSchema = z.object({
       post_id: z.string().cuid2(),

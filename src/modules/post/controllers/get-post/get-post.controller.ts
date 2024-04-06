@@ -1,8 +1,8 @@
 import { z } from "zod";
 import { getPost } from "../../usecases/get-post/get-post.usecase";
-import { appErrorHandler } from "../../../../middlewares/app-error-handler";
+import { safeController } from "../../../../middlewares/safe-controller";
 
-export const getPostController = appErrorHandler(async (request, response) => {
+export const getPostController = safeController(async (request, response) => {
   const paramsSchema = z.object({
     post_id: z.string().cuid2(),
   });

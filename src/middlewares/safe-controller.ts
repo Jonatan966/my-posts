@@ -2,7 +2,7 @@ import { NextFunction, Request, RequestHandler, Response } from "express";
 import { AppError } from "../utils/error";
 import { ZodError } from "zod";
 
-function appErrorHandler(controller: RequestHandler) {
+function safeController(controller: RequestHandler) {
   return async (request: Request, response: Response, next: NextFunction) => {
     try {
       return await controller(request, response, next);
@@ -29,4 +29,4 @@ function appErrorHandler(controller: RequestHandler) {
   };
 }
 
-export { appErrorHandler };
+export { safeController };
