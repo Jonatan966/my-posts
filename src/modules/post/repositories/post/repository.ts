@@ -59,4 +59,13 @@ export const postRepository: PostRepository = {
 
     return updatedPost;
   },
+  async list({ author_id }) {
+    return await prisma.post.findMany({
+      where: {
+        deleted_at: null,
+        is_edited: false,
+        author_id,
+      },
+    });
+  },
 };

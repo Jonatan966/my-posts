@@ -54,5 +54,13 @@ export function makePostRepositoryMock(): PostRepository {
 
       return foundPost;
     },
+    async list({ author_id }) {
+      return posts.filter(
+        (post) =>
+          !post.deleted_at &&
+          !post.is_edited &&
+          (!author_id || post.author_id === author_id)
+      );
+    },
   };
 }

@@ -15,10 +15,15 @@ interface UpdatePostDTO {
   content?: string;
 }
 
+interface ListPostsDTO {
+  author_id?: string;
+}
+
 export interface PostRepository {
   posts?: post[];
   create(postData: CreatePostDTO): Promise<post>;
   delete(post_id: string): Promise<void>;
   findOneById(post_id: string): Promise<post | null>;
   update(post: UpdatePostDTO): Promise<post>;
+  list(params: ListPostsDTO): Promise<post[]>;
 }
