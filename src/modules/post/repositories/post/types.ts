@@ -17,6 +17,7 @@ interface UpdatePostDTO {
 
 interface ListPostsDTO {
   author_id?: string;
+  parent_post_id?: string | null;
 }
 
 export interface PostRepository {

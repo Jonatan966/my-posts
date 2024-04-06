@@ -54,12 +54,13 @@ export function makePostRepositoryMock(): PostRepository {
 
       return foundPost;
     },
-    async list({ author_id }) {
+    async list({ author_id, parent_post_id = null }) {
       return posts.filter(
         (post) =>
           !post.deleted_at &&
           !post.is_edited &&
-          (!author_id || post.author_id === author_id)
+          (!author_id || post.author_id === author_id) &&
+          post.parent_post_id === parent_post_id
       );
     },
   };

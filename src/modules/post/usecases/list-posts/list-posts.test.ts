@@ -43,6 +43,25 @@ describe("list posts usecase", () => {
     );
   });
 
+  it("should be able to list comments", async () => {
+    postsRepository.posts?.push({
+      id: "kxqfya6b",
+      author_id: "the-dam-id",
+      content: "The comment",
+      created_at: new Date(),
+      deleted_at: null,
+      is_edited: false,
+      original_version_id: null,
+      reposted_post_id: null,
+      parent_post_id: "the-another-id",
+      root_post_id: "the-another-id",
+    });
+
+    await expect(
+      listPosts({ parent_post_id: "the-another-id" })
+    ).resolves.toHaveLength(1);
+  });
+
   it("should not be able to list deleted posts", async () => {
     postsRepository.posts?.push({
       id: "di969sw0",
