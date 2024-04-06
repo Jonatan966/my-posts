@@ -51,5 +51,5 @@
   - [x] POST /posts
   - [x] GET /posts/post-tal
   - [x] PUT /posts/post-tal
-  - [] DELETE /posts/post-tal
+  - [x] DELETE /posts/post-tal
   - [x] GET /posts/post-tal/comments
