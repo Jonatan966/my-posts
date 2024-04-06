@@ -43,7 +43,7 @@
   - [x] POST /users
   - [x] GET /users/usuariotal
   - [x] GET /users/usuariotal/posts
-  - [] PUT /users/usuariotal
+  - [x] PUT /users/usuariotal
   - [x] PATCH /users/usuariotal/username
 
 - Posts
