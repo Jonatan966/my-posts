@@ -1,5 +1,4 @@
 import { Router } from "express";
-import { appErrorHandler } from "../../middlewares/app-error-handler";
 import { createPostController } from "./controllers/create-post/create-post.controller";
 import { getPostController } from "./controllers/get-post/get-post.controller";
 import { listPostsController } from "./controllers/list-posts/list-posts.controller";
@@ -9,14 +8,11 @@ import { deletePostController } from "./controllers/delete-post/delete-post.cont
 
 const postRouter = Router();
 
-postRouter.post("/", appErrorHandler(createPostController));
-postRouter.get("/", appErrorHandler(listPostsController));
-postRouter.get("/:post_id", appErrorHandler(getPostController));
-postRouter.put("/:post_id", appErrorHandler(editPostController));
-postRouter.delete("/:post_id", appErrorHandler(deletePostController));
-postRouter.get(
-  "/:post_id/comments",
-  appErrorHandler(listPostCommentsController)
-);
+postRouter.post("/", createPostController);
+postRouter.get("/", listPostsController);
+postRouter.get("/:post_id", getPostController);
+postRouter.put("/:post_id", editPostController);
+postRouter.delete("/:post_id", deletePostController);
+postRouter.get("/:post_id/comments", listPostCommentsController);
 
 export { postRouter };

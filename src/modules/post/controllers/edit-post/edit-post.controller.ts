@@ -1,11 +1,8 @@
-import { Request, Response } from "express";
 import { z } from "zod";
 import { editPost } from "../../usecases/edit-post/edit-post.usecase";
+import { appErrorHandler } from "../../../../middlewares/app-error-handler";
 
-export const editPostController = async (
-  request: Request,
-  response: Response
-) => {
+export const editPostController = appErrorHandler(async (request, response) => {
   const paramsSchema = z.object({
     post_id: z.string().cuid2(),
   });
@@ -25,4 +22,4 @@ export const editPostController = async (
   });
 
   return response.json(updatedPost);
-};
+});

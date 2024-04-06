@@ -6,18 +6,13 @@ import { listUserPostsController } from "../post/controllers/list-user-posts/lis
 import { updateUsernameController } from "./controllers/update-username/update-username.controller";
 import { updateUserController } from "./controllers/update-user/update-user.controller";
 
-import { appErrorHandler } from "../../middlewares/app-error-handler";
-
 const userRouter = Router();
 
-userRouter.post("/", appErrorHandler(createUserController));
-userRouter.get("/:username", appErrorHandler(getUserByUsernameController));
-userRouter.put("/:username", appErrorHandler(updateUserController));
+userRouter.post("/", createUserController);
+userRouter.get("/:username", getUserByUsernameController);
+userRouter.put("/:username", updateUserController);
 
-userRouter.patch(
-  "/:username/username",
-  appErrorHandler(updateUsernameController)
-);
-userRouter.get("/:username/posts", appErrorHandler(listUserPostsController));
+userRouter.patch("/:username/username", updateUsernameController);
+userRouter.get("/:username/posts", listUserPostsController);
 
 export { userRouter };

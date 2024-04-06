@@ -1,8 +1,8 @@
-import { Request, Response } from "express";
 import { listPosts } from "../../usecases/list-posts/list-posts.usecase";
+import { appErrorHandler } from "../../../../middlewares/app-error-handler";
 
-export const listPostsController = async (_: Request, response: Response) => {
+export const listPostsController = appErrorHandler(async (_, response) => {
   const posts = await listPosts();
 
   return response.json({ posts });
-};
+});

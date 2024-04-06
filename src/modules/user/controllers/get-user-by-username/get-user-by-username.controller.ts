@@ -1,18 +1,17 @@
-import { Request, Response } from "express";
 import { z } from "zod";
 import { getUserByUsername } from "../../usecases/get-user-by-username/get-user-by-username.usecase";
+import { appErrorHandler } from "../../../../middlewares/app-error-handler";
 
-export const getUserByUsernameController = async (
-  request: Request,
-  response: Response
-) => {
-  const paramsSchema = z.object({
-    username: z.string(),
-  });
+export const getUserByUsernameController = appErrorHandler(
+  async (request, response) => {
+    const paramsSchema = z.object({
+      username: z.string(),
+    });
 
-  const params = await paramsSchema.parseAsync(request.params);
+    const params = await paramsSchema.parseAsync(request.params);
 
-  const user = await getUserByUsername(params.username);
+    const user = await getUserByUsername(params.username);
 
-  return response.json(user);
-};
+    return response.json(user);
+  }
+);
