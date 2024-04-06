@@ -50,6 +50,6 @@
   - [x] GET /posts
   - [x] POST /posts
   - [x] GET /posts/post-tal
-  - [] PUT /posts/post-tal
+  - [x] PUT /posts/post-tal
   - [] DELETE /posts/post-tal
   - [] GET /posts/post-tal/comments
