@@ -52,4 +52,4 @@
   - [x] GET /posts/post-tal
   - [x] PUT /posts/post-tal
   - [] DELETE /posts/post-tal
-  - [] GET /posts/post-tal/comments
+  - [x] GET /posts/post-tal/comments
