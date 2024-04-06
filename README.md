@@ -44,7 +44,7 @@
   - [x] GET /users/usuariotal
   - [x] GET /users/usuariotal/posts
   - [] PUT /users/usuariotal
-  - [] PATCH /users/usuariotal/username
+  - [x] PATCH /users/usuariotal/username
 
 - Posts
   - [x] GET /posts
