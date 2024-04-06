@@ -28,7 +28,7 @@ model post {
 
   author user @relation(fields: [author_id], references: [id])
 
-  is_edited           Boolean?
+  is_edited           Boolean? @default(false)
   original_version_id String?  @db.VarChar(24)
   original_version    post?    @relation("post_versions", fields: [original_version_id], references: [id])
   new_versions        post[]   @relation("post_versions")
