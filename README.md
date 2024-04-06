@@ -42,11 +42,12 @@
 
   - [x] POST /users
   - [x] GET /users/usuariotal
+  - [x] GET /users/usuariotal/posts
   - [] PUT /users/usuariotal
   - [] PATCH /users/usuariotal/username
 
 - Posts
-  - [] GET /posts
+  - [x] GET /posts
   - [x] POST /posts
   - [x] GET /posts/post-tal
   - [] PUT /posts/post-tal
