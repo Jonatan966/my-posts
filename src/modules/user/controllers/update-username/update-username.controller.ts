@@ -6,7 +6,7 @@ import { safeController } from "../../../../middlewares/safe-controller";
 export const updateUsernameController = safeController(
   async (request, response) => {
     const schema = z.object({
-      username: z.string(),
+      username: z.string().trim().min(3),
     });
 
     const params = await schema.parseAsync(request.params);
