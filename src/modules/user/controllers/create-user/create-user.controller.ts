@@ -6,7 +6,7 @@ export const createUserController = safeController(
   async (request, response) => {
     const userSchema = z.object({
       display_name: z.string(),
-      username: z.string(),
+      username: z.string().trim().min(3),
       bio: z.string().optional(),
     });
 
