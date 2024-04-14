@@ -25,7 +25,7 @@ export const makeAuthenticateUser = (
       throw new AppError(UserModuleErrors.invalid_password);
     }
 
-    return true;
+    return user;
   };
 };
 

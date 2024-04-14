@@ -25,7 +25,7 @@ describe("authenticate user", () => {
 
     expect(
       authenticateUserUsecase({ username: "foouser", password: "foo123" })
-    ).resolves.toEqual(true);
+    ).resolves.toHaveProperty("id", "the-id");
   });
 
   it("should not be able to authenticate with wrong password", async () => {
