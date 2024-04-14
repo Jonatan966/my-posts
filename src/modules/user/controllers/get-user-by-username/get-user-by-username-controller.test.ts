@@ -9,6 +9,7 @@ describe("get user by username (e2e)", () => {
     await appRequest.post("/users").send({
       display_name: "John Doe",
       username: "johndoe",
+      password: "foobar123",
       bio: "I am John Doe",
     });
   });

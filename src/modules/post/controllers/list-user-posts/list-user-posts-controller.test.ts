@@ -11,6 +11,7 @@ describe("list user posts (e2e)", () => {
     const userResponse = await appRequest.post("/users").send({
       display_name: "John Doe",
       username: "johndoe",
+      password: "foobar123",
       bio: "I am John Doe",
     });
 

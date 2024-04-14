@@ -14,6 +14,7 @@ describe("update user usecase", () => {
     userRepository.users?.push({
       id: "the-id",
       username: "foouser",
+      password: "foobar123",
       display_name: "Foo",
       bio: "The foo user",
       created_at: new Date(),
