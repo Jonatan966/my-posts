@@ -5,6 +5,7 @@ export enum UserModuleErrorType {
   UserNotFound = "user_not_found",
   UsernameNotAbleToUpdate = "username_not_able_to_update",
   InvalidPassword = "invalid_password",
+  SamePassword = "same_password",
 }
 
 export const UserModuleErrors: Record<UserModuleErrorType, ErrorProps> = {
@@ -27,5 +28,10 @@ export const UserModuleErrors: Record<UserModuleErrorType, ErrorProps> = {
     name: UserModuleErrorType.InvalidPassword,
     message: "The password is invalid",
     statusCode: 401,
+  },
+  [UserModuleErrorType.SamePassword]: {
+    name: UserModuleErrorType.SamePassword,
+    message: "This is your current password",
+    statusCode: 400,
   },
 };
