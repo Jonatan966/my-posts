@@ -9,6 +9,7 @@ describe("create user (e2e)", () => {
     const response = await appRequest.post("/users").send({
       display_name: "John Doe",
       username: "johndoe",
+      password: "foobar123",
       bio: "I am John Doe",
     });
 
@@ -20,6 +21,7 @@ describe("create user (e2e)", () => {
     const response = await appRequest.post("/users").send({
       display_name: "Foo Bar",
       username: "johndoe",
+      password: "foobar123",
       bio: "I am Foo Bar",
     });
 
@@ -31,6 +33,7 @@ describe("create user (e2e)", () => {
     const response = await appRequest.post("/users").send({
       display_name: "Lady Gaga",
       username: "",
+      password: "foobar123",
     });
 
     expect(response.statusCode).toEqual(400);
@@ -41,6 +44,7 @@ describe("create user (e2e)", () => {
     const response = await appRequest.post("/users").send({
       display_name: "Beyonocé",
       username: "   ",
+      password: "foobar123",
     });
 
     expect(response.statusCode).toEqual(400);

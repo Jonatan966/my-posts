@@ -7,13 +7,14 @@ export const createUserController = safeController(
     const userSchema = z.object({
       display_name: z.string(),
       username: z.string().trim().min(3),
+      password: z.string().trim().min(6),
       bio: z.string().optional(),
     });
 
     const userPayload = await userSchema.parseAsync(request.body);
 
-    const createdUser = await createUser(userPayload);
+    await createUser(userPayload);
 
-    return response.status(201).json(createdUser);
+    return response.sendStatus(204);
   }
 );
