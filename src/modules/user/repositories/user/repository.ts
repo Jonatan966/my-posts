@@ -42,6 +42,7 @@ export const userRepository: UserRepository = {
       data: {
         display_name: user.display_name,
         username: user.username,
+        password: user.password,
         bio: user.bio,
         username_updated_at: user.username_updated_at,
       },
