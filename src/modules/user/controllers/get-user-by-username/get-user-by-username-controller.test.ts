@@ -4,6 +4,7 @@ import { app } from "../../../../app";
 
 describe("get user by username (e2e)", () => {
   const appRequest = request(app);
+  let token = "";
 
   beforeAll(async () => {
     await appRequest.post("/users").send({
@@ -12,17 +13,30 @@ describe("get user by username (e2e)", () => {
       password: "foobar123",
       bio: "I am John Doe",
     });
+
+    const authResponse = await appRequest.post("/users/auth").send({
+      username: "johndoe",
+      password: "foobar123",
+    });
+
+    token = authResponse.body.token;
   });
 
   it("should be able to get user by username", async () => {
-    const response = await appRequest.get("/users/johndoe").send();
+    const response = await appRequest
+      .get("/users/johndoe")
+      .set("authorization", `Bearer ${token}`)
+      .send();
 
     expect(response.statusCode).toEqual(200);
     expect(response.body).toHaveProperty("display_name", "John Doe");
   });
 
   it("should not be able to get user by unexistent username", async () => {
-    const response = await appRequest.get("/users/foobar").send();
+    const response = await appRequest
+      .get("/users/foobar")
+      .set("authorization", `Bearer ${token}`)
+      .send();
 
     expect(response.statusCode).toEqual(400);
     expect(response.body?.error).toHaveProperty("code", "user_not_found");

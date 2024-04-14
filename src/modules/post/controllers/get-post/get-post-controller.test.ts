@@ -6,6 +6,7 @@ import { app } from "../../../../app";
 describe("get post (e2e)", () => {
   const appRequest = request(app);
   let author: user;
+  let token = "";
 
   beforeAll(async () => {
     const userResponse = await appRequest.post("/users").send({
@@ -16,18 +17,29 @@ describe("get post (e2e)", () => {
     });
 
     author = userResponse.body;
+
+    const authResponse = await appRequest.post("/users/auth").send({
+      username: "johndoe",
+      password: "foobar123",
+    });
+
+    token = authResponse.body.token;
   });
 
   it("should be able to get post", async () => {
-    const createdPostResponse = await appRequest.post("/posts").send({
-      content: "Good morning!",
-      author_id: author.id,
-    });
+    const createdPostResponse = await appRequest
+      .post("/posts")
+      .set("authorization", `Bearer ${token}`)
+      .send({
+        content: "Good morning!",
+        author_id: author.id,
+      });
 
     const createdPostId = createdPostResponse.body.id;
 
     const retrievedPostResponse = await appRequest
       .get(`/posts/${createdPostId}`)
+      .set("authorization", `Bearer ${token}`)
       .send();
 
     expect(retrievedPostResponse.statusCode).toEqual(200);

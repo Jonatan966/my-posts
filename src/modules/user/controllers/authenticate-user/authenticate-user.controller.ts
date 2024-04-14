@@ -20,6 +20,7 @@ export const authenticateUserController = safeController(
 
     const token = jwt.sign({}, environment.secret, {
       subject: user.id,
+      expiresIn: "30d",
     });
 
     return response.json({

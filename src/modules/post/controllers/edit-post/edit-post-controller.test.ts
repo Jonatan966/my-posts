@@ -6,6 +6,7 @@ import { app } from "../../../../app";
 describe("edit post (e2e)", () => {
   const appRequest = request(app);
   let author: user;
+  let token = "";
 
   beforeAll(async () => {
     const userResponse = await appRequest.post("/users").send({
@@ -16,18 +17,29 @@ describe("edit post (e2e)", () => {
     });
 
     author = userResponse.body;
+
+    const authResponse = await appRequest.post("/users/auth").send({
+      username: "johndoe",
+      password: "foobar123",
+    });
+
+    token = authResponse.body.token;
   });
 
   it("should be able to edit post", async () => {
-    const originalPostResponse = await appRequest.post("/posts").send({
-      content: "Good morning!",
-      author_id: author.id,
-    });
+    const originalPostResponse = await appRequest
+      .post("/posts")
+      .set("authorization", `Bearer ${token}`)
+      .send({
+        content: "Good morning!",
+        author_id: author.id,
+      });
 
     const originalPostId = originalPostResponse.body.id;
 
     const editedPostResponse = await appRequest
       .put(`/posts/${originalPostId}`)
+      .set("authorization", `Bearer ${token}`)
       .send({
         content: "Dua Lipa my beloved",
         author_id: author.id,

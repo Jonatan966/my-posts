@@ -5,8 +5,11 @@ import { listPostsController } from "./controllers/list-posts/list-posts.control
 import { editPostController } from "./controllers/edit-post/edit-post.controller";
 import { listPostCommentsController } from "./controllers/list-post-comments/list-post-comments.controller";
 import { deletePostController } from "./controllers/delete-post/delete-post.controller";
+import { protectedRouteMiddleware } from "../../middlewares/protected-route-middleware";
 
 const postRouter = Router();
+
+postRouter.use(protectedRouteMiddleware);
 
 postRouter.post("/", createPostController);
 postRouter.get("/", listPostsController);

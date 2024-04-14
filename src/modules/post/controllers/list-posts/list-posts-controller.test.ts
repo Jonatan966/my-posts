@@ -6,6 +6,7 @@ import { app } from "../../../../app";
 describe("list posts (e2e)", () => {
   const appRequest = request(app);
   let author: user;
+  let token = "";
 
   beforeAll(async () => {
     const userResponse = await appRequest.post("/users").send({
@@ -16,15 +17,28 @@ describe("list posts (e2e)", () => {
     });
 
     author = userResponse.body;
+
+    const authResponse = await appRequest.post("/users/auth").send({
+      username: "johndoe",
+      password: "foobar123",
+    });
+
+    token = authResponse.body.token;
   });
 
   it("should be able to list posts", async () => {
-    await appRequest.post("/posts").send({
-      content: "Born this Way is the best music album!",
-      author_id: author.id,
-    });
+    await appRequest
+      .post("/posts")
+      .set("authorization", `Bearer ${token}`)
+      .send({
+        content: "Born this Way is the best music album!",
+        author_id: author.id,
+      });
 
-    const postsResponse = await appRequest.get("/users/johndoe/posts").send();
+    const postsResponse = await appRequest
+      .get("/users/johndoe/posts")
+      .set("authorization", `Bearer ${token}`)
+      .send();
 
     expect(postsResponse.statusCode).toEqual(200);
     expect(postsResponse.body).toHaveProperty("posts");

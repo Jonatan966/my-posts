@@ -6,6 +6,7 @@ import { app } from "../../../../app";
 describe("create post (e2e)", () => {
   const appRequest = request(app);
   let author: user;
+  let token = "";
 
   beforeAll(async () => {
     const userResponse = await appRequest.post("/users").send({
@@ -16,31 +17,47 @@ describe("create post (e2e)", () => {
     });
 
     author = userResponse.body;
+
+    const authResponse = await appRequest.post("/users/auth").send({
+      username: "johndoe",
+      password: "foobar123",
+    });
+
+    token = authResponse.body.token;
   });
 
   it("should be able to create post", async () => {
-    const response = await appRequest.post("/posts").send({
-      content: "Good morning!",
-      author_id: author.id,
-    });
+    const response = await appRequest
+      .post("/posts")
+      .set("authorization", `Bearer ${token}`)
+      .send({
+        content: "Good morning!",
+        author_id: author.id,
+      });
 
     expect(response.statusCode).toEqual(201);
     expect(response.body).toHaveProperty("id");
   });
 
   it("should be able to comment a post", async () => {
-    const originalPostResponse = await appRequest.post("/posts").send({
-      content: "Lady Gaga is the best!",
-      author_id: author.id,
-    });
+    const originalPostResponse = await appRequest
+      .post("/posts")
+      .set("authorization", `Bearer ${token}`)
+      .send({
+        content: "Lady Gaga is the best!",
+        author_id: author.id,
+      });
 
     const originalPostId = originalPostResponse.body.id;
 
-    const commentResponse = await appRequest.post("/posts").send({
-      content: "This is so true!!",
-      author_id: author.id,
-      parent_post_id: originalPostId,
-    });
+    const commentResponse = await appRequest
+      .post("/posts")
+      .set("authorization", `Bearer ${token}`)
+      .send({
+        content: "This is so true!!",
+        author_id: author.id,
+        parent_post_id: originalPostId,
+      });
 
     expect(commentResponse.statusCode).toEqual(201);
     expect(commentResponse.body).toMatchObject(
@@ -52,18 +69,24 @@ describe("create post (e2e)", () => {
   });
 
   it("should be able to repost a post", async () => {
-    const originalPostResponse = await appRequest.post("/posts").send({
-      content: "I love Dua Lipa",
-      author_id: author.id,
-    });
+    const originalPostResponse = await appRequest
+      .post("/posts")
+      .set("authorization", `Bearer ${token}`)
+      .send({
+        content: "I love Dua Lipa",
+        author_id: author.id,
+      });
 
     const originalPostId = originalPostResponse.body.id;
 
-    const repostResponse = await appRequest.post("/posts").send({
-      content: "Don't forget this!!",
-      author_id: author.id,
-      reposted_post_id: originalPostId,
-    });
+    const repostResponse = await appRequest
+      .post("/posts")
+      .set("authorization", `Bearer ${token}`)
+      .send({
+        content: "Don't forget this!!",
+        author_id: author.id,
+        reposted_post_id: originalPostId,
+      });
 
     expect(repostResponse.statusCode).toEqual(201);
     expect(repostResponse.body).toHaveProperty("id");
@@ -74,18 +97,24 @@ describe("create post (e2e)", () => {
   });
 
   it("should be able to make repost without content", async () => {
-    const originalPostResponse = await appRequest.post("/posts").send({
-      content: "Future Nostalgia is the best album",
-      author_id: author.id,
-    });
+    const originalPostResponse = await appRequest
+      .post("/posts")
+      .set("authorization", `Bearer ${token}`)
+      .send({
+        content: "Future Nostalgia is the best album",
+        author_id: author.id,
+      });
 
     const originalPostId = originalPostResponse.body.id;
 
-    const repostResponse = await appRequest.post("/posts").send({
-      content: "",
-      author_id: author.id,
-      reposted_post_id: originalPostId,
-    });
+    const repostResponse = await appRequest
+      .post("/posts")
+      .set("authorization", `Bearer ${token}`)
+      .send({
+        content: "",
+        author_id: author.id,
+        reposted_post_id: originalPostId,
+      });
 
     expect(repostResponse.statusCode).toEqual(201);
     expect(repostResponse.body).toHaveProperty("id");
