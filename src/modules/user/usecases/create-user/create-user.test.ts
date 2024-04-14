@@ -18,7 +18,7 @@ describe("create user usecase", () => {
       password: "foobar",
       bio: "This is John",
     });
-    console.log(userRepository.users![0].password);
+
     const isValidPassword = await compare(
       "foobar",
       userRepository.users![0].password
