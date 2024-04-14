@@ -13,8 +13,11 @@ export const createUserController = safeController(
 
     const userPayload = await userSchema.parseAsync(request.body);
 
-    await createUser(userPayload);
+    const createdUser = await createUser(userPayload);
 
-    return response.sendStatus(204);
+    return response.status(201).json({
+      ...createdUser,
+      password: undefined,
+    });
   }
 );
