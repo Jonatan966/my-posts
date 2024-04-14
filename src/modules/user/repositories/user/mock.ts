@@ -24,6 +24,7 @@ export function makeUserRepositoryMock(): UserRepository {
         id: cuid2.createId(),
         display_name: newUserData.display_name,
         username: newUserData.username,
+        password: newUserData.password,
         bio: newUserData.bio || null,
         created_at: now,
         updated_at: now,

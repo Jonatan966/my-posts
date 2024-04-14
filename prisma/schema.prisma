@@ -12,6 +12,7 @@ model user {
   display_name String  @db.VarChar(50)
   username     String  @unique @db.VarChar(15)
   bio          String? @db.VarChar(160)
+  password     String  @db.VarChar(60)
 
   posts post[]
 

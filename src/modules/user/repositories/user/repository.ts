@@ -27,6 +27,7 @@ export const userRepository: UserRepository = {
         id: cuid2.createId(),
         display_name: user.display_name,
         username: user.username,
+        password: user.password,
         bio: user.bio,
       },
     });
