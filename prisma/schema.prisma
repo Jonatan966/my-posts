@@ -14,12 +14,26 @@ model user {
   bio          String? @db.VarChar(160)
   password     String  @db.VarChar(60)
 
-  posts post[]
+  posts     post[]
+  following relationship[] @relation("following")
+  followers relationship[] @relation("followers")
 
   created_at          DateTime  @default(now())
   updated_at          DateTime  @updatedAt
   username_updated_at DateTime?
   deleted_at          DateTime?
+}
+
+// John (follower_id) is following Bar (following_id)
+model relationship {
+  follower_id  String   @db.VarChar(24)
+  following_id String   @db.VarChar(24)
+  created_at   DateTime @default(now())
+
+  follower  user @relation("following", fields: [follower_id], references: [id])
+  following user @relation("followers", fields: [following_id], references: [id])
+
+  @@id([follower_id, following_id])
 }
 
 model post {
