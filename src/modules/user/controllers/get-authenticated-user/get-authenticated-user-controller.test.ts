@@ -2,7 +2,7 @@ import request from "supertest";
 import { beforeAll, describe, expect, it } from "vitest";
 import { app } from "../../../../app";
 
-describe("update username (e2e)", () => {
+describe("get authenticated user (e2e)", () => {
   const appRequest = request(app);
   let token = "";
 
@@ -22,15 +22,13 @@ describe("update username (e2e)", () => {
     token = authResponse.body.token;
   });
 
-  it("should be able to update username", async () => {
-    const response = await appRequest
-      .patch("/users/me/username")
+  it("should be able to get authenticated user", async () => {
+    const userResponse = await appRequest
+      .get("/users/me")
       .set("authorization", `Bearer ${token}`)
-      .send({
-        username: "thebest",
-      });
+      .send();
 
-    expect(response.statusCode).toEqual(200);
-    expect(response.body).toHaveProperty("username", "thebest");
+    expect(userResponse.statusCode).toEqual(200);
+    expect(userResponse.body).toHaveProperty("username", "johndoe");
   });
 });

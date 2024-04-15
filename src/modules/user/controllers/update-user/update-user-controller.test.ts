@@ -24,7 +24,7 @@ describe("update user (e2e)", () => {
 
   it("should be able to update user", async () => {
     const response = await appRequest
-      .put("/users/johndoe")
+      .put("/users/me")
       .set("authorization", `Bearer ${token}`)
       .send({
         bio: "I am the best!",
