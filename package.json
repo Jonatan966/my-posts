@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "node dist/server.js",
-    "dev": "tsnd --respawn -r dotenv/config src/server.ts",
+    "dev": "tsnd --respawn --transpile-only -r dotenv/config src/server.ts",
     "build": "tsc",
     "test": "vitest",
     "test:e2e": "vitest controller.test.ts",
