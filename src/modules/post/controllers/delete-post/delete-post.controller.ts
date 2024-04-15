@@ -8,15 +8,10 @@ export const deletePostController = safeController(
       post_id: z.string().cuid2(),
     });
 
-    const bodySchema = z.object({
-      author_id: z.string().cuid2(),
-    });
-
     const params = await paramsSchema.parseAsync(request.params);
-    const body = await bodySchema.parseAsync(request.body);
 
     await deletePost({
-      author_id: body.author_id,
+      author_id: request.userId,
       post_id: params.post_id,
     });
 

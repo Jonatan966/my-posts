@@ -1,22 +1,18 @@
 import request from "supertest";
-import { user } from "@prisma/client";
 import { beforeAll, describe, expect, it } from "vitest";
 import { app } from "../../../../app";
 
 describe("create post (e2e)", () => {
   const appRequest = request(app);
-  let author: user;
   let token = "";
 
   beforeAll(async () => {
-    const userResponse = await appRequest.post("/users").send({
+    await appRequest.post("/users").send({
       display_name: "John Doe",
       username: "johndoe",
       password: "foobar123",
       bio: "I am John Doe",
     });
-
-    author = userResponse.body;
 
     const authResponse = await appRequest.post("/users/auth").send({
       username: "johndoe",
@@ -32,7 +28,6 @@ describe("create post (e2e)", () => {
       .set("authorization", `Bearer ${token}`)
       .send({
         content: "Good morning!",
-        author_id: author.id,
       });
 
     expect(response.statusCode).toEqual(201);
@@ -45,7 +40,6 @@ describe("create post (e2e)", () => {
       .set("authorization", `Bearer ${token}`)
       .send({
         content: "Lady Gaga is the best!",
-        author_id: author.id,
       });
 
     const originalPostId = originalPostResponse.body.id;
@@ -55,7 +49,6 @@ describe("create post (e2e)", () => {
       .set("authorization", `Bearer ${token}`)
       .send({
         content: "This is so true!!",
-        author_id: author.id,
         parent_post_id: originalPostId,
       });
 
@@ -74,7 +67,6 @@ describe("create post (e2e)", () => {
       .set("authorization", `Bearer ${token}`)
       .send({
         content: "I love Dua Lipa",
-        author_id: author.id,
       });
 
     const originalPostId = originalPostResponse.body.id;
@@ -84,7 +76,6 @@ describe("create post (e2e)", () => {
       .set("authorization", `Bearer ${token}`)
       .send({
         content: "Don't forget this!!",
-        author_id: author.id,
         reposted_post_id: originalPostId,
       });
 
@@ -102,7 +93,6 @@ describe("create post (e2e)", () => {
       .set("authorization", `Bearer ${token}`)
       .send({
         content: "Future Nostalgia is the best album",
-        author_id: author.id,
       });
 
     const originalPostId = originalPostResponse.body.id;
@@ -112,7 +102,6 @@ describe("create post (e2e)", () => {
       .set("authorization", `Bearer ${token}`)
       .send({
         content: "",
-        author_id: author.id,
         reposted_post_id: originalPostId,
       });
 

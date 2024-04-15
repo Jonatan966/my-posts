@@ -9,7 +9,6 @@ export const editPostController = safeController(async (request, response) => {
 
   const bodySchema = z.object({
     content: z.string(),
-    author_id: z.string(),
   });
 
   const params = await paramsSchema.parseAsync(request.params);
@@ -17,7 +16,7 @@ export const editPostController = safeController(async (request, response) => {
 
   const updatedPost = await editPost({
     id: params.post_id,
-    author_id: body.author_id,
+    author_id: request.userId,
     content: body.content,
   });
 

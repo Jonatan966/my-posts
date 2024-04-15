@@ -1,22 +1,18 @@
 import request from "supertest";
-import { user } from "@prisma/client";
 import { beforeAll, describe, expect, it } from "vitest";
 import { app } from "../../../../app";
 
 describe("get post (e2e)", () => {
   const appRequest = request(app);
-  let author: user;
   let token = "";
 
   beforeAll(async () => {
-    const userResponse = await appRequest.post("/users").send({
+    await appRequest.post("/users").send({
       display_name: "John Doe",
       username: "johndoe",
       password: "foobar123",
       bio: "I am John Doe",
     });
-
-    author = userResponse.body;
 
     const authResponse = await appRequest.post("/users/auth").send({
       username: "johndoe",
@@ -32,7 +28,6 @@ describe("get post (e2e)", () => {
       .set("authorization", `Bearer ${token}`)
       .send({
         content: "Good morning!",
-        author_id: author.id,
       });
 
     const createdPostId = createdPostResponse.body.id;
