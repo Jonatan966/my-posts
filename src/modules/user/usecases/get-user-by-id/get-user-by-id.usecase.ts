@@ -9,7 +9,7 @@ export const makeGetUserById = (
   return async (user_id: string) => {
     const user = await findOneUserById(user_id);
 
-    if (!user) {
+    if (!user || !!user.deleted_at) {
       throw new AppError(UserModuleErrors.user_not_found);
     }
 
