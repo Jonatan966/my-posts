@@ -8,6 +8,7 @@ import { updateUserController } from "./controllers/update-user/update-user.cont
 import { authenticateUserController } from "./controllers/authenticate-user/authenticate-user.controller";
 import { protectedRouteMiddleware } from "../../middlewares/protected-route-middleware";
 import { getAuthenticatedUser } from "./controllers/get-authenticated-user/get-authenticated-user.controller";
+import { followUserController } from "./controllers/follow-user/follow-user.controller";
 
 const userRouter = Router();
 
@@ -23,5 +24,7 @@ userRouter.put("/me", updateUserController);
 
 userRouter.get("/:username/posts", listUserPostsController);
 userRouter.get("/:username", getUserByUsernameController);
+
+userRouter.post("/:username/followers", followUserController);
 
 export { userRouter };
