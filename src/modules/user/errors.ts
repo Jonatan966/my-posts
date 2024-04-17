@@ -6,6 +6,8 @@ export enum UserModuleErrorType {
   UsernameNotAbleToUpdate = "username_not_able_to_update",
   InvalidPassword = "invalid_password",
   SamePassword = "same_password",
+  AlreadyFollowedUser = "already_followed_user",
+  UserNotAbleToFollow = "user_not_able_to_follow",
 }
 
 export const UserModuleErrors: Record<UserModuleErrorType, ErrorProps> = {
@@ -33,5 +35,15 @@ export const UserModuleErrors: Record<UserModuleErrorType, ErrorProps> = {
     name: UserModuleErrorType.SamePassword,
     message: "This is your current password",
     statusCode: 400,
+  },
+  [UserModuleErrorType.AlreadyFollowedUser]: {
+    name: UserModuleErrorType.AlreadyFollowedUser,
+    message: "You already followed this user",
+    statusCode: 400,
+  },
+  [UserModuleErrorType.UserNotAbleToFollow]: {
+    name: UserModuleErrorType.UserNotAbleToFollow,
+    message: "You not have permission to follow this user",
+    statusCode: 401,
   },
 };
