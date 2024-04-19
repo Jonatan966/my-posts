@@ -7,7 +7,7 @@
     "start": "node dist/server.js",
     "dev": "tsnd --respawn --transpile-only -r dotenv/config src/server.ts",
     "build": "tsc",
-    "test": "vitest",
+    "test": "vitest usecase.test.ts",
     "test:e2e": "vitest controller.test.ts",
     "test:create-prisma-environment": "npm link ./prisma/vitest-environment-prisma",
     "test:install-prisma-environment": "npm link vitest-environment-prisma",
