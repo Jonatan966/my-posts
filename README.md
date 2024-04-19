@@ -34,17 +34,22 @@
 
 - Armazenar os usernames antigos no Redis para permanecer por pelo menos 1 mês
 - Estudar sobre paginação via token
+- Usar a lib morgan
 
 # Rotas
 
 - Users
-  GET /users
 
   - [x] POST /users
   - [x] GET /users/usuariotal
   - [x] GET /users/usuariotal/posts
-  - [x] PUT /users/usuariotal
-  - [x] PATCH /users/usuariotal/username
+  - [x] POST /users/auth
+  - [x] GET /users/me
+  - [x] PUT /users/me
+  - [x] PATCH /users/me/username
+  - [x] POST /users/usuario-tal/followers
+  - [] GET /users/usuario-tal/followers
+  - [] GET /users
 
 - Posts
   - [x] GET /posts
