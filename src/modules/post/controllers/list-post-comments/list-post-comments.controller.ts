@@ -1,22 +1,28 @@
 import { z } from "zod";
+import { FastifyInstance } from "fastify";
+import { ZodTypeProvider } from "fastify-type-provider-zod";
+
 import { getPost } from "../../usecases/get-post/get-post.usecase";
 import { listPosts } from "../../usecases/list-posts/list-posts.usecase";
-import { safeController } from "../../../../middlewares/safe-controller";
 
-export const listPostCommentsController = safeController(
-  async (request, response) => {
-    const paramsSchema = z.object({
-      post_id: z.string().cuid2(),
-    });
+export const listPostCommentsController = async (app: FastifyInstance) => {
+  app.withTypeProvider<ZodTypeProvider>().get(
+    "/:post_id/comments",
+    {
+      schema: {
+        params: z.object({
+          post_id: z.string().cuid2(),
+        }),
+      },
+    },
+    async (request, reply) => {
+      const foundPost = await getPost(request.params.post_id);
 
-    const params = await paramsSchema.parseAsync(request.params);
+      const comments = await listPosts({
+        parent_post_id: foundPost.id,
+      });
 
-    const foundPost = await getPost(params.post_id);
-
-    const comments = await listPosts({
-      parent_post_id: foundPost.id,
-    });
-
-    return response.json({ comments });
-  }
-);
+      return reply.send({ comments });
+    }
+  );
+};

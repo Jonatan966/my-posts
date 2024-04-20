@@ -1,20 +1,25 @@
 import { z } from "zod";
+import { FastifyInstance } from "fastify";
+import { ZodTypeProvider } from "fastify-type-provider-zod";
 import { deletePost } from "../../usecases/delete-post/delete-post.usecase";
-import { safeController } from "../../../../middlewares/safe-controller";
 
-export const deletePostController = safeController(
-  async (request, response) => {
-    const paramsSchema = z.object({
-      post_id: z.string().cuid2(),
-    });
+export const deletePostController = async (app: FastifyInstance) => {
+  app.withTypeProvider<ZodTypeProvider>().delete(
+    "/:post_id",
+    {
+      schema: {
+        params: z.object({
+          post_id: z.string().cuid2(),
+        }),
+      },
+    },
+    async (request, reply) => {
+      await deletePost({
+        author_id: request.user.sub,
+        post_id: request.params.post_id,
+      });
 
-    const params = await paramsSchema.parseAsync(request.params);
-
-    await deletePost({
-      author_id: request.userId,
-      post_id: params.post_id,
-    });
-
-    return response.sendStatus(204);
-  }
-);
+      return reply.status(204).send();
+    }
+  );
+};

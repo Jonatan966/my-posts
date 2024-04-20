@@ -1,8 +1,11 @@
-import { safeController } from "../../../../middlewares/safe-controller";
+import { FastifyInstance } from "fastify";
+import { ZodTypeProvider } from "fastify-type-provider-zod";
 import { listUsers } from "../../usecases/list-users/list-users.usecase";
 
-export const listUsersController = safeController(async (request, response) => {
-  const { users } = await listUsers();
+export const listUsersController = async (app: FastifyInstance) => {
+  app.withTypeProvider<ZodTypeProvider>().get("/", {}, async (_, reply) => {
+    const { users } = await listUsers();
 
-  return response.json({ users });
-});
+    return reply.send({ users });
+  });
+};

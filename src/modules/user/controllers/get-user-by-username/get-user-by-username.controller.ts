@@ -1,17 +1,23 @@
 import { z } from "zod";
+import { FastifyInstance } from "fastify";
+import { ZodTypeProvider } from "fastify-type-provider-zod";
+
 import { getUserByUsername } from "../../usecases/get-user-by-username/get-user-by-username.usecase";
-import { safeController } from "../../../../middlewares/safe-controller";
 
-export const getUserByUsernameController = safeController(
-  async (request, response) => {
-    const paramsSchema = z.object({
-      username: z.string(),
-    });
+export const getUserByUsernameController = async (app: FastifyInstance) => {
+  app.withTypeProvider<ZodTypeProvider>().get(
+    "/:username",
+    {
+      schema: {
+        params: z.object({
+          username: z.string(),
+        }),
+      },
+    },
+    async (request, reply) => {
+      const user = await getUserByUsername(request.params.username);
 
-    const params = await paramsSchema.parseAsync(request.params);
-
-    const user = await getUserByUsername(params.username);
-
-    return response.json(user);
-  }
-);
+      return reply.send(user);
+    }
+  );
+};

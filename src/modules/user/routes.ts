@@ -1,4 +1,6 @@
-import { Router } from "express";
+import { FastifyInstance } from "fastify";
+
+import { verifyJwt } from "../../middlewares/verify-jwt";
 
 import { createUserController } from "./controllers/create-user/create-user.controller";
 import { getUserByUsernameController } from "./controllers/get-user-by-username/get-user-by-username.controller";
@@ -6,28 +8,25 @@ import { listUserPostsController } from "../post/controllers/list-user-posts/lis
 import { updateUsernameController } from "./controllers/update-username/update-username.controller";
 import { updateUserController } from "./controllers/update-user/update-user.controller";
 import { authenticateUserController } from "./controllers/authenticate-user/authenticate-user.controller";
-import { protectedRouteMiddleware } from "../../middlewares/protected-route-middleware";
 import { getAuthenticatedUser } from "./controllers/get-authenticated-user/get-authenticated-user.controller";
 import { followUserController } from "./controllers/follow-user/follow-user.controller";
 import { listUsersController } from "./controllers/list-users/list-users.controller";
 
-const userRouter = Router();
+export async function userRoutes(app: FastifyInstance) {
+  app.register(createUserController);
 
-userRouter.post("/", createUserController);
+  app.register(authenticateUserController);
 
-userRouter.post("/auth", authenticateUserController);
+  app.addHook("onRequest", verifyJwt);
 
-userRouter.use(protectedRouteMiddleware);
+  app.register(listUsersController);
 
-userRouter.get("/", listUsersController);
+  app.register(getAuthenticatedUser);
+  app.register(updateUsernameController);
+  app.register(updateUserController);
 
-userRouter.get("/me", getAuthenticatedUser);
-userRouter.patch("/me/username", updateUsernameController);
-userRouter.put("/me", updateUserController);
+  app.register(listUserPostsController);
+  app.register(getUserByUsernameController);
 
-userRouter.get("/:username/posts", listUserPostsController);
-userRouter.get("/:username", getUserByUsernameController);
-
-userRouter.post("/:username/followers", followUserController);
-
-export { userRouter };
+  app.register(followUserController);
+}

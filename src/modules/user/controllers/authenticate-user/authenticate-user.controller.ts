@@ -1,30 +1,40 @@
 import { z } from "zod";
-import jwt from "jsonwebtoken";
-import { safeController } from "../../../../middlewares/safe-controller";
+import { FastifyInstance } from "fastify";
+import { ZodTypeProvider } from "fastify-type-provider-zod";
+
 import { authenticateUser } from "../../usecases/authenticate-user/authenticate-user.usecase";
-import { environment } from "../../../../utils/env";
 
-export const authenticateUserController = safeController(
-  async (request, response) => {
-    const bodySchema = z.object({
-      username: z.string(),
-      password: z.string(),
-    });
+export const authenticateUserController = async (app: FastifyInstance) => {
+  app.withTypeProvider<ZodTypeProvider>().post(
+    "/auth",
+    {
+      schema: {
+        body: z.object({
+          username: z.string(),
+          password: z.string(),
+        }),
+      },
+    },
+    async (request, reply) => {
+      const { username, password } = request.body;
 
-    const { username, password } = await bodySchema.parseAsync(request.body);
+      const user = await authenticateUser({
+        username,
+        password,
+      });
 
-    const user = await authenticateUser({
-      username,
-      password,
-    });
+      const token = await reply.jwtSign(
+        {},
+        {
+          sign: {
+            sub: user.id,
+          },
+        }
+      );
 
-    const token = jwt.sign({}, environment.secret, {
-      subject: user.id,
-      expiresIn: "30d",
-    });
-
-    return response.json({
-      token,
-    });
-  }
-);
+      return reply.send({
+        token,
+      });
+    }
+  );
+};

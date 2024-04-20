@@ -1,20 +1,25 @@
 import { z } from "zod";
+import { FastifyInstance } from "fastify";
+import { ZodTypeProvider } from "fastify-type-provider-zod";
 import { updateUsername } from "../../usecases/update-username/update-username.usecase";
-import { safeController } from "../../../../middlewares/safe-controller";
 
-export const updateUsernameController = safeController(
-  async (request, response) => {
-    const schema = z.object({
-      username: z.string().trim().min(3),
-    });
+export const updateUsernameController = async (app: FastifyInstance) => {
+  app.withTypeProvider<ZodTypeProvider>().patch(
+    "/me/username",
+    {
+      schema: {
+        body: z.object({
+          username: z.string().trim().min(3),
+        }),
+      },
+    },
+    async (request, reply) => {
+      const updatedUser = await updateUsername({
+        id: request.user.sub,
+        username: request.body.username,
+      });
 
-    const body = await schema.parseAsync(request.body);
-
-    const updatedUser = await updateUsername({
-      id: request.userId,
-      username: body.username,
-    });
-
-    return response.json(updatedUser);
-  }
-);
+      return reply.send(updatedUser);
+    }
+  );
+};

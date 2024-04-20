@@ -1,13 +1,17 @@
-import { safeController } from "../../../../middlewares/safe-controller";
+import { FastifyInstance } from "fastify";
+import { ZodTypeProvider } from "fastify-type-provider-zod";
+
 import { getUserById } from "../../usecases/get-user-by-id/get-user-by-id.usecase";
 
-export const getAuthenticatedUser = safeController(
-  async (request, response) => {
-    const user = await getUserById(request.userId);
+export const getAuthenticatedUser = async (app: FastifyInstance) => {
+  app
+    .withTypeProvider<ZodTypeProvider>()
+    .get("/me", {}, async (request, reply) => {
+      const user = await getUserById(request.user.sub);
 
-    return response.json({
-      ...user,
-      password: undefined,
+      return reply.send({
+        ...user,
+        password: undefined,
+      });
     });
-  }
-);
+};

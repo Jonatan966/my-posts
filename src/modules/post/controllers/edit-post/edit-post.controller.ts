@@ -1,24 +1,29 @@
 import { z } from "zod";
+import { FastifyInstance } from "fastify";
+import { ZodTypeProvider } from "fastify-type-provider-zod";
 import { editPost } from "../../usecases/edit-post/edit-post.usecase";
-import { safeController } from "../../../../middlewares/safe-controller";
 
-export const editPostController = safeController(async (request, response) => {
-  const paramsSchema = z.object({
-    post_id: z.string().cuid2(),
-  });
+export const editPostController = async (app: FastifyInstance) => {
+  app.withTypeProvider<ZodTypeProvider>().put(
+    "/:post_id",
+    {
+      schema: {
+        params: z.object({
+          post_id: z.string().cuid2(),
+        }),
+        body: z.object({
+          content: z.string(),
+        }),
+      },
+    },
+    async (request, reply) => {
+      const updatedPost = await editPost({
+        id: request.params.post_id,
+        author_id: request.user.sub,
+        content: request.body.content,
+      });
 
-  const bodySchema = z.object({
-    content: z.string(),
-  });
-
-  const params = await paramsSchema.parseAsync(request.params);
-  const body = await bodySchema.parseAsync(request.body);
-
-  const updatedPost = await editPost({
-    id: params.post_id,
-    author_id: request.userId,
-    content: body.content,
-  });
-
-  return response.json(updatedPost);
-});
+      return reply.send(updatedPost);
+    }
+  );
+};

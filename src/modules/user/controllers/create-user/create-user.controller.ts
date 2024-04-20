@@ -1,23 +1,28 @@
-import { createUser } from "../../usecases/create-user/create-user.usecase";
 import { z } from "zod";
-import { safeController } from "../../../../middlewares/safe-controller";
+import { FastifyInstance } from "fastify";
+import { ZodTypeProvider } from "fastify-type-provider-zod";
+import { createUser } from "../../usecases/create-user/create-user.usecase";
 
-export const createUserController = safeController(
-  async (request, response) => {
-    const userSchema = z.object({
-      display_name: z.string(),
-      username: z.string().trim().min(3),
-      password: z.string().trim().min(6),
-      bio: z.string().optional(),
-    });
+export const createUserController = async (app: FastifyInstance) => {
+  app.withTypeProvider<ZodTypeProvider>().post(
+    "/",
+    {
+      schema: {
+        body: z.object({
+          display_name: z.string(),
+          username: z.string().trim().min(3),
+          password: z.string().trim().min(6),
+          bio: z.string().optional(),
+        }),
+      },
+    },
+    async (request, reply) => {
+      const createdUser = await createUser(request.body);
 
-    const userPayload = await userSchema.parseAsync(request.body);
-
-    const createdUser = await createUser(userPayload);
-
-    return response.status(201).json({
-      ...createdUser,
-      password: undefined,
-    });
-  }
-);
+      return reply.status(201).send({
+        ...createdUser,
+        password: undefined,
+      });
+    }
+  );
+};

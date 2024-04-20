@@ -1,20 +1,26 @@
 import { z } from "zod";
-import { safeController } from "../../../../middlewares/safe-controller";
+import { FastifyInstance } from "fastify";
+import { ZodTypeProvider } from "fastify-type-provider-zod";
+
 import { followUser } from "../../usecases/follow-user/follow-user.usecase";
 
-export const followUserController = safeController(
-  async (request, response) => {
-    const paramsSchema = z.object({
-      username: z.string(),
-    });
+export const followUserController = async (app: FastifyInstance) => {
+  app.withTypeProvider<ZodTypeProvider>().post(
+    "/:username/followers",
+    {
+      schema: {
+        params: z.object({
+          username: z.string(),
+        }),
+      },
+    },
+    async (request, reply) => {
+      await followUser({
+        follower_id: request.user.sub,
+        following_username: request.params.username,
+      });
 
-    const { username } = await paramsSchema.parseAsync(request.params);
-
-    await followUser({
-      follower_id: request.userId,
-      following_username: username,
-    });
-
-    return response.sendStatus(204);
-  }
-);
+      return reply.status(204).send();
+    }
+  );
+};

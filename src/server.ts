@@ -3,4 +3,6 @@ import { environment } from "./utils/env";
 
 const port = environment.port || 3000;
 
-app.listen(port, () => console.log("app started on", port));
+app
+  .listen({ port, host: "0.0.0.0" })
+  .then(() => console.log("app started on", port));
