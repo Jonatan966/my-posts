@@ -40,6 +40,15 @@ app.register(fastifySwagger, {
       description:
         "Especificações da API para o back-end da aplicação my-posts",
       version: "1.0.0",
+      contact: {
+        email: "jonatanfrederico@gmail.com",
+        name: "Jonatan Frederico",
+        url: "https://ojonatan.dev",
+      },
+      license: {
+        name: "MIT License",
+        url: "https://github.com/Jonatan966/my-posts/LICENSE.md",
+      },
     },
     securityDefinitions: {
       bearer: {

@@ -7,6 +7,9 @@ const port = environment.port || 3000;
 
 app.register(fastifySwaggerUI, {
   routePrefix: "/docs",
+  theme: {
+    title: "my-posts",
+  },
 });
 
 app
