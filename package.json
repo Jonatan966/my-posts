@@ -5,8 +5,8 @@
   "main": "app.js",
   "scripts": {
     "start": "node dist/server.js",
-    "dev": "tsnd --respawn --transpile-only -r dotenv/config src/server.ts",
-    "build": "tsc",
+    "dev": "tsx watch --env-file .env src/server.ts",
+    "build": "tsup src --format esm",
     "test": "vitest usecase.test.ts",
     "test:e2e": "vitest controller.test.ts",
     "test:create-prisma-environment": "npm link ./prisma/vitest-environment-prisma",
@@ -36,7 +36,8 @@
     "npm-run-all": "^4.1.5",
     "prisma": "^5.12.1",
     "supertest": "^6.3.4",
-    "ts-node-dev": "^2.0.0",
+    "tsup": "^8.0.2",
+    "tsx": "^4.7.2",
     "typescript": "^5.4.3",
     "vitest": "^1.4.0"
   }
