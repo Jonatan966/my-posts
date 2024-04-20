@@ -9,6 +9,7 @@ import { authenticateUserController } from "./controllers/authenticate-user/auth
 import { protectedRouteMiddleware } from "../../middlewares/protected-route-middleware";
 import { getAuthenticatedUser } from "./controllers/get-authenticated-user/get-authenticated-user.controller";
 import { followUserController } from "./controllers/follow-user/follow-user.controller";
+import { listUsersController } from "./controllers/list-users/list-users.controller";
 
 const userRouter = Router();
 
@@ -17,6 +18,8 @@ userRouter.post("/", createUserController);
 userRouter.post("/auth", authenticateUserController);
 
 userRouter.use(protectedRouteMiddleware);
+
+userRouter.get("/", listUsersController);
 
 userRouter.get("/me", getAuthenticatedUser);
 userRouter.patch("/me/username", updateUsernameController);
