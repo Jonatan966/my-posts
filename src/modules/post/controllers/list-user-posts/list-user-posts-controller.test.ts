@@ -1,12 +1,14 @@
 import request from "supertest";
-import { beforeAll, describe, expect, it } from "vitest";
+import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { app } from "../../../../app";
 
 describe("list user posts (e2e)", () => {
-  const appRequest = request(app);
+  const appRequest = request(app.server);
   let token = "";
 
   beforeAll(async () => {
+    await app.ready();
+
     await appRequest.post("/users").send({
       display_name: "John Doe",
       username: "johndoe",
@@ -20,6 +22,10 @@ describe("list user posts (e2e)", () => {
     });
 
     token = authResponse.body.token;
+  });
+
+  afterAll(async () => {
+    await app.close();
   });
 
   it("should be able to list user posts", async () => {

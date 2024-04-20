@@ -17,16 +17,18 @@ export async function userRoutes(app: FastifyInstance) {
 
   app.register(authenticateUserController);
 
-  app.addHook("onRequest", verifyJwt);
+  app.register(async (authApp) => {
+    authApp.addHook("onRequest", verifyJwt);
 
-  app.register(listUsersController);
+    authApp.register(listUsersController);
 
-  app.register(getAuthenticatedUser);
-  app.register(updateUsernameController);
-  app.register(updateUserController);
+    authApp.register(getAuthenticatedUser);
+    authApp.register(updateUsernameController);
+    authApp.register(updateUserController);
 
-  app.register(listUserPostsController);
-  app.register(getUserByUsernameController);
+    authApp.register(listUserPostsController);
+    authApp.register(getUserByUsernameController);
 
-  app.register(followUserController);
+    authApp.register(followUserController);
+  });
 }

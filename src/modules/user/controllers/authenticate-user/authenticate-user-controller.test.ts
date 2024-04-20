@@ -1,17 +1,23 @@
 import request from "supertest";
-import { beforeAll, describe, expect, it } from "vitest";
+import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { app } from "../../../../app";
 
 describe("authenticate user (e2e)", () => {
-  const appRequest = request(app);
+  const appRequest = request(app.server);
 
   beforeAll(async () => {
+    await app.ready();
+
     await appRequest.post("/users").send({
       display_name: "John Doe",
       username: "johndoe",
       password: "foobar123",
       bio: "I am John Doe",
     });
+  });
+
+  afterAll(async () => {
+    await app.close();
   });
 
   it("should be able to authenticate user", async () => {
