@@ -10,13 +10,11 @@ export const updateUserController = async (app: FastifyInstance) => {
       schema: {
         summary: "Update authenticated user",
         tags: ["Me"],
+        security: [{ bearer: [] }],
         body: z.object({
           display_name: z.string().optional(),
           bio: z.string().optional(),
         }),
-        response: {
-          200: z.object({}),
-        },
       },
     },
     async (request, reply) => {

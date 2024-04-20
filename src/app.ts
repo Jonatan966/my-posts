@@ -41,6 +41,14 @@ app.register(fastifySwagger, {
         "Especificações da API para o back-end da aplicação my-posts",
       version: "1.0.0",
     },
+    securityDefinitions: {
+      bearer: {
+        type: "apiKey",
+        in: "header",
+        description: "The Bearer token to authenticated routes",
+        name: "Authorization",
+      },
+    },
   },
   transform: jsonSchemaTransform,
 });

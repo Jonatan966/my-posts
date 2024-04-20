@@ -11,6 +11,7 @@ export const listUserPostsController = async (app: FastifyInstance) => {
       schema: {
         summary: "List user posts",
         tags: ["Users"],
+        security: [{ bearer: [] }],
         params: z.object({
           username: z.string(),
         }),

@@ -10,6 +10,7 @@ export const listPostsController = async (app: FastifyInstance) => {
       schema: {
         summary: "List posts",
         tags: ["Posts"],
+        security: [{ bearer: [] }],
         response: {
           200: z.object({
             posts: z.array(z.object({})),

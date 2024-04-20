@@ -10,6 +10,7 @@ export const deletePostController = async (app: FastifyInstance) => {
       schema: {
         summary: "Delete post",
         tags: ["Posts"],
+        security: [{ bearer: [] }],
         params: z.object({
           post_id: z.string().cuid2(),
         }),

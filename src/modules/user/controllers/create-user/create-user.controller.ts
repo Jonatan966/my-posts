@@ -16,9 +16,6 @@ export const createUserController = async (app: FastifyInstance) => {
           password: z.string().trim().min(6),
           bio: z.string().optional(),
         }),
-        response: {
-          200: z.object({}),
-        },
       },
     },
     async (request, reply) => {

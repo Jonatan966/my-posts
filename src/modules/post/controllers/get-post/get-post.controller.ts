@@ -10,12 +10,10 @@ export const getPostController = async (app: FastifyInstance) => {
       schema: {
         summary: "Get post",
         tags: ["Posts"],
+        security: [{ bearer: [] }],
         params: z.object({
           post_id: z.string().cuid2(),
         }),
-        response: {
-          200: z.object({}),
-        },
       },
     },
     async (request, reply) => {

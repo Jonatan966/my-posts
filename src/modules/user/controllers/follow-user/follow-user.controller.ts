@@ -11,6 +11,7 @@ export const followUserController = async (app: FastifyInstance) => {
       schema: {
         summary: "Follow user",
         tags: ["Users"],
+        security: [{ bearer: [] }],
         params: z.object({
           username: z.string(),
         }),

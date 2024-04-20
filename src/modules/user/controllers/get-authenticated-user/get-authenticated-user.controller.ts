@@ -11,9 +11,7 @@ export const getAuthenticatedUser = async (app: FastifyInstance) => {
       schema: {
         summary: "Get authenticated user",
         tags: ["Me"],
-        response: {
-          200: z.object({}),
-        },
+        security: [{ bearer: [] }],
       },
     },
     async (request, reply) => {
