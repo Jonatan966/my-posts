@@ -20,6 +20,7 @@ export interface UserRepository {
   users?: user[];
   findOneByUsername(username: string): Promise<user | null>;
   findOneById(userId: string): Promise<user | null>;
+  findMany(): Promise<user[]>;
   create(user: CreateUserDTO): Promise<user>;
   update(user: UpdateUserDTO): Promise<user>;
 }

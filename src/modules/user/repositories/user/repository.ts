@@ -50,4 +50,11 @@ export const userRepository: UserRepository = {
 
     return updatedUser;
   },
+  async findMany() {
+    return await prisma.user.findMany({
+      where: {
+        deleted_at: null,
+      },
+    });
+  },
 };
