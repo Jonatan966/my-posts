@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "node dist/server.js",
+    "start": "node dist/server.mjs",
     "dev": "tsx watch --env-file .env src/server.ts",
     "build": "tsup src --format esm",
     "test": "vitest usecase.test.ts",
