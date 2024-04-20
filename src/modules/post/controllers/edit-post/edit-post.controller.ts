@@ -8,12 +8,17 @@ export const editPostController = async (app: FastifyInstance) => {
     "/:post_id",
     {
       schema: {
+        summary: "Edit post",
+        tags: ["Posts"],
         params: z.object({
           post_id: z.string().cuid2(),
         }),
         body: z.object({
           content: z.string(),
         }),
+        response: {
+          200: z.object({}),
+        },
       },
     },
     async (request, reply) => {

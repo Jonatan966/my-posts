@@ -9,9 +9,14 @@ export const getUserByUsernameController = async (app: FastifyInstance) => {
     "/:username",
     {
       schema: {
+        summary: "Get user by username",
+        tags: ["Users"],
         params: z.object({
           username: z.string(),
         }),
+        response: {
+          200: z.object({}),
+        },
       },
     },
     async (request, reply) => {

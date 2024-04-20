@@ -9,10 +9,17 @@ export const authenticateUserController = async (app: FastifyInstance) => {
     "/auth",
     {
       schema: {
+        summary: "Authenticate user",
+        tags: ["Users"],
         body: z.object({
           username: z.string(),
           password: z.string(),
         }),
+        response: {
+          200: z.object({
+            token: z.string(),
+          }),
+        },
       },
     },
     async (request, reply) => {

@@ -8,9 +8,14 @@ export const deletePostController = async (app: FastifyInstance) => {
     "/:post_id",
     {
       schema: {
+        summary: "Delete post",
+        tags: ["Posts"],
         params: z.object({
           post_id: z.string().cuid2(),
         }),
+        response: {
+          204: z.null(),
+        },
       },
     },
     async (request, reply) => {

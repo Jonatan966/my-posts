@@ -8,9 +8,14 @@ export const getPostController = async (app: FastifyInstance) => {
     "/:post_id",
     {
       schema: {
+        summary: "Get post",
+        tags: ["Posts"],
         params: z.object({
           post_id: z.string().cuid2(),
         }),
+        response: {
+          200: z.object({}),
+        },
       },
     },
     async (request, reply) => {

@@ -1,12 +1,14 @@
 import fastify from "fastify";
 import fastifyJwt from "@fastify/jwt";
 import fastifyCors from "@fastify/cors";
+import fastifySwagger from "@fastify/swagger";
 
 import { postRoutes } from "./modules/post/routes";
 import {
   serializerCompiler,
   validatorCompiler,
   ZodTypeProvider,
+  jsonSchemaTransform,
 } from "fastify-type-provider-zod";
 import { userRoutes } from "./modules/user/routes";
 import { errorHandler } from "./middlewares/error-handler";
@@ -27,6 +29,20 @@ app.register(fastifyJwt, {
 
 app.register(fastifyCors, {
   origin: "*",
+});
+
+app.register(fastifySwagger, {
+  swagger: {
+    consumes: ["application/json"],
+    produces: ["application/json"],
+    info: {
+      title: "my-posts",
+      description:
+        "Especificações da API para o back-end da aplicação my-posts",
+      version: "1.0.0",
+    },
+  },
+  transform: jsonSchemaTransform,
 });
 
 app.setValidatorCompiler(validatorCompiler);

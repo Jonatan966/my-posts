@@ -9,9 +9,14 @@ export const followUserController = async (app: FastifyInstance) => {
     "/:username/followers",
     {
       schema: {
+        summary: "Follow user",
+        tags: ["Users"],
         params: z.object({
           username: z.string(),
         }),
+        response: {
+          204: z.null(),
+        },
       },
     },
     async (request, reply) => {

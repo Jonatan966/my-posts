@@ -9,9 +9,16 @@ export const listUserPostsController = async (app: FastifyInstance) => {
     "/:username/posts",
     {
       schema: {
+        summary: "List user posts",
+        tags: ["Users"],
         params: z.object({
           username: z.string(),
         }),
+        response: {
+          200: z.object({
+            posts: z.array(z.object({})),
+          }),
+        },
       },
     },
     async (request, reply) => {
