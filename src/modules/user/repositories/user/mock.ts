@@ -51,5 +51,8 @@ export function makeUserRepositoryMock(): UserRepository {
     async findMany() {
       return users.filter((user) => user.deleted_at === null);
     },
+    async findManyByIds(ids) {
+      return users.filter((user) => ids.includes(user.id));
+    },
   };
 }

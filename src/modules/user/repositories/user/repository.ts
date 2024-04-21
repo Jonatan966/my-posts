@@ -57,4 +57,11 @@ export const userRepository: UserRepository = {
       },
     });
   },
+  async findManyByIds(ids) {
+    return await prisma.user.findMany({
+      where: {
+        id: { in: ids },
+      },
+    });
+  },
 };
