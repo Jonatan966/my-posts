@@ -5,6 +5,7 @@ export function makeRelationshipRepositoryMock(): RelationshipRepository {
   const relationships: relationship[] = [];
 
   return {
+    relationships,
     async create(data) {
       const newRelationship = {
         follower_id: data.follower_id,
