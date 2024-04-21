@@ -12,6 +12,7 @@ import { getAuthenticatedUser } from "./controllers/get-authenticated-user/get-a
 import { followUserController } from "./controllers/follow-user/follow-user.controller";
 import { listUsersController } from "./controllers/list-users/list-users.controller";
 import { listUserFollowersController } from "./controllers/list-user-followers/list-user-followers.controller";
+import { listUserFollowingController } from "./controllers/list-user-following/list-user-following.controller";
 
 export async function userRoutes(app: FastifyInstance) {
   app.register(createUserController);
@@ -32,5 +33,6 @@ export async function userRoutes(app: FastifyInstance) {
 
     authApp.register(followUserController);
     authApp.register(listUserFollowersController);
+    authApp.register(listUserFollowingController);
   });
 }
