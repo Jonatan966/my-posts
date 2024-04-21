@@ -11,6 +11,7 @@ import { authenticateUserController } from "./controllers/authenticate-user/auth
 import { getAuthenticatedUser } from "./controllers/get-authenticated-user/get-authenticated-user.controller";
 import { followUserController } from "./controllers/follow-user/follow-user.controller";
 import { listUsersController } from "./controllers/list-users/list-users.controller";
+import { listUserFollowersController } from "./controllers/list-user-followers/list-user-followers.controller";
 
 export async function userRoutes(app: FastifyInstance) {
   app.register(createUserController);
@@ -30,5 +31,6 @@ export async function userRoutes(app: FastifyInstance) {
     authApp.register(getUserByUsernameController);
 
     authApp.register(followUserController);
+    authApp.register(listUserFollowersController);
   });
 }

@@ -48,7 +48,8 @@
   - [x] PUT /users/me
   - [x] PATCH /users/me/username
   - [x] POST /users/usuario-tal/followers
-  - [] GET /users/usuario-tal/followers
+  - [x] GET /users/usuario-tal/followers
+  - [ ] GET /users/usuario-tal/following
   - [x] GET /users
 
 - Posts
