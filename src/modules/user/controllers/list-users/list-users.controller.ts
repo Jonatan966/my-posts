@@ -11,11 +11,6 @@ export const listUsersController = async (app: FastifyInstance) => {
         summary: "List users",
         tags: ["Users"],
         security: [{ bearer: [] }],
-        response: {
-          200: z.object({
-            users: z.array(z.object({})),
-          }),
-        },
       },
     },
     async (_, reply) => {
