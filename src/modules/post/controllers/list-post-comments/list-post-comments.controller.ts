@@ -16,11 +16,6 @@ export const listPostCommentsController = async (app: FastifyInstance) => {
         params: z.object({
           post_id: z.string().cuid2(),
         }),
-        response: {
-          200: z.object({
-            comments: z.array(z.object({})),
-          }),
-        },
       },
     },
     async (request, reply) => {

@@ -15,11 +15,6 @@ export const listUserPostsController = async (app: FastifyInstance) => {
         params: z.object({
           username: z.string(),
         }),
-        response: {
-          200: z.object({
-            posts: z.array(z.object({})),
-          }),
-        },
       },
     },
     async (request, reply) => {
