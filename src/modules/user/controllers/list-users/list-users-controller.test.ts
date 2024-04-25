@@ -30,7 +30,7 @@ describe("list users (e2e)", () => {
 
   it("should be able to list users", async () => {
     const userResponse = await appRequest
-      .get("/users")
+      .get("/users?query=john")
       .set("authorization", `Bearer ${token}`)
       .send();
 

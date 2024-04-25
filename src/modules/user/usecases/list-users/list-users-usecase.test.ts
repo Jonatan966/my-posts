@@ -20,9 +20,45 @@ describe("list users usecase", () => {
       username_updated_at: null,
     });
 
-    const result = await listUsersUsecase();
+    const result = await listUsersUsecase({
+      querySearch: "foo",
+    });
 
     expect(result.users).toHaveLength(1);
+  });
+
+  it("should be able to search specific user", async () => {
+    usersRepository.users?.push(
+      {
+        id: "the-asdasda",
+        username: "sheyla2024",
+        password: "foobar123",
+        display_name: "Sheyla",
+        bio: "The foo user",
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
+        username_updated_at: null,
+      },
+      {
+        id: "the-adsdww",
+        username: "sheyla2124",
+        password: "foobar123",
+        display_name: "Sheyla",
+        bio: "The foo user",
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
+        username_updated_at: null,
+      }
+    );
+
+    const result = await listUsersUsecase({
+      querySearch: "sheyla20",
+    });
+
+    expect(result.users).toHaveLength(1);
+    expect(result.users[0]).toHaveProperty("username", "sheyla2024");
   });
 
   it("should not be able to list deleted users", async () => {
@@ -38,8 +74,10 @@ describe("list users usecase", () => {
       username_updated_at: null,
     });
 
-    const result = await listUsersUsecase();
+    const result = await listUsersUsecase({
+      querySearch: "ciclano",
+    });
 
-    expect(result.users).toHaveLength(1);
+    expect(result.users).toHaveLength(0);
   });
 });

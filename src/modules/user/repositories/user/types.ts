@@ -16,11 +16,15 @@ export interface UpdateUserDTO {
   username_updated_at?: Date;
 }
 
+export interface FindManyUsersDTO {
+  querySearch?: string;
+}
+
 export interface UserRepository {
   users?: user[];
   findOneByUsername(username: string): Promise<user | null>;
   findOneById(userId: string): Promise<user | null>;
-  findMany(): Promise<user[]>;
+  findMany(filters?: FindManyUsersDTO): Promise<user[]>;
   findManyByIds(ids: string[]): Promise<user[]>;
   create(user: CreateUserDTO): Promise<user>;
   update(user: UpdateUserDTO): Promise<user>;

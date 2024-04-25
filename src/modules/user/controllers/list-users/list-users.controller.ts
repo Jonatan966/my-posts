@@ -11,10 +11,17 @@ export const listUsersController = async (app: FastifyInstance) => {
         summary: "List users",
         tags: ["Users"],
         security: [{ bearer: [] }],
+        querystring: z.object({
+          query: z.string().trim().min(1),
+        }),
       },
     },
-    async (_, reply) => {
-      const { users } = await listUsers();
+    async (request, reply) => {
+      const { query } = request.query;
+
+      const { users } = await listUsers({
+        querySearch: query,
+      });
 
       return reply.send({ users });
     }

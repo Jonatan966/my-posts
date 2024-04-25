@@ -48,8 +48,14 @@ export function makeUserRepositoryMock(): UserRepository {
 
       return users[targetUser];
     },
-    async findMany() {
-      return users.filter((user) => user.deleted_at === null);
+    async findMany(filters) {
+      return users.filter(
+        (user) =>
+          user.deleted_at === null &&
+          (!filters?.querySearch ||
+            user.username.includes(filters.querySearch) ||
+            user.display_name.includes(filters.querySearch))
+      );
     },
     async findManyByIds(ids) {
       return users.filter((user) => ids.includes(user.id));

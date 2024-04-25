@@ -50,10 +50,24 @@ export const userRepository: UserRepository = {
 
     return updatedUser;
   },
-  async findMany() {
+  async findMany(filters) {
     return await prisma.user.findMany({
       where: {
         deleted_at: null,
+        OR: filters?.querySearch
+          ? [
+              {
+                username: {
+                  contains: filters.querySearch,
+                },
+              },
+              {
+                display_name: {
+                  contains: filters.querySearch,
+                },
+              },
+            ]
+          : undefined,
       },
     });
   },
