@@ -49,13 +49,19 @@ export function makeUserRepositoryMock(): UserRepository {
       return users[targetUser];
     },
     async findMany(filters) {
-      return users.filter(
+      const filteredUsers = users.filter(
         (user) =>
           user.deleted_at === null &&
           (!filters?.querySearch ||
             user.username.includes(filters.querySearch) ||
             user.display_name.includes(filters.querySearch))
       );
+
+      const targetTokenUser = filteredUsers.findIndex(
+        (user) => user.id === filters?.page_token
+      );
+
+      return filteredUsers.splice(targetTokenUser + 1, filters?.users_per_page);
     },
     async findManyByIds(ids) {
       return users.filter((user) => ids.includes(user.id));

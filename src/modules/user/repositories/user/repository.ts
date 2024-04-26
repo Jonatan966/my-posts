@@ -69,6 +69,13 @@ export const userRepository: UserRepository = {
             ]
           : undefined,
       },
+      skip: !!filters?.page_token ? 1 : 0,
+      take: filters?.users_per_page,
+      cursor: filters?.page_token
+        ? {
+            id: filters.page_token,
+          }
+        : undefined,
     });
   },
   async findManyByIds(ids) {

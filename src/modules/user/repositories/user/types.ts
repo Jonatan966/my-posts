@@ -18,6 +18,8 @@ export interface UpdateUserDTO {
 
 export interface FindManyUsersDTO {
   querySearch?: string;
+  page_token?: string;
+  users_per_page?: number;
 }
 
 export interface UserRepository {

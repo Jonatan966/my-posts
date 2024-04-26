@@ -25,6 +25,7 @@ describe("list users usecase", () => {
     });
 
     expect(result.users).toHaveLength(1);
+    expect(result.next_page_token).toBeUndefined();
   });
 
   it("should be able to search specific user", async () => {
@@ -59,6 +60,36 @@ describe("list users usecase", () => {
 
     expect(result.users).toHaveLength(1);
     expect(result.users[0]).toHaveProperty("username", "sheyla2024");
+  });
+
+  it("should return next page token correctly", async () => {
+    usersRepository.users?.push(
+      ...Array.from(new Array(25)).map((_, index) => ({
+        id: `fofo-${index}`,
+        username: "cristina",
+        password: "foobar123",
+        display_name: "Cristina",
+        bio: "The foo user",
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
+        username_updated_at: null,
+      }))
+    );
+
+    const result = await listUsersUsecase({
+      querySearch: "cristina",
+    });
+
+    expect(result.next_page_token).toEqual("fofo-19");
+  });
+
+  it("should be able to pass page token", async () => {
+    const result = await listUsersUsecase({
+      page_token: "fofo-5",
+    });
+
+    expect(result.users[0]).toHaveProperty("id", "fofo-6");
   });
 
   it("should not be able to list deleted users", async () => {
