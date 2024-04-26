@@ -59,7 +59,7 @@ export const postRepository: PostRepository = {
 
     return updatedPost;
   },
-  async list({ author_id, parent_post_id }) {
+  async list({ author_id, parent_post_id, page_token, posts_per_page }) {
     return await prisma.post.findMany({
       where: {
         deleted_at: null,
@@ -67,6 +67,13 @@ export const postRepository: PostRepository = {
         author_id,
         parent_post_id,
       },
+      skip: !!page_token ? 1 : 0,
+      take: posts_per_page,
+      cursor: page_token
+        ? {
+            id: page_token,
+          }
+        : undefined,
     });
   },
 };

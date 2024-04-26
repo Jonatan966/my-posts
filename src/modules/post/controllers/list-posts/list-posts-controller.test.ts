@@ -37,7 +37,7 @@ describe("list posts (e2e)", () => {
       });
 
     const postsResponse = await appRequest
-      .get("/users/johndoe/posts")
+      .get("/posts")
       .set("authorization", `Bearer ${token}`)
       .send();
 

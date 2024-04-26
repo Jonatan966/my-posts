@@ -54,14 +54,25 @@ export function makePostRepositoryMock(): PostRepository {
 
       return foundPost;
     },
-    async list({ author_id, parent_post_id = null }) {
-      return posts.filter(
+    async list({
+      author_id,
+      parent_post_id = null,
+      page_token,
+      posts_per_page,
+    }) {
+      const filteredPosts = posts.filter(
         (post) =>
           !post.deleted_at &&
           !post.is_edited &&
           (!author_id || post.author_id === author_id) &&
           post.parent_post_id === parent_post_id
       );
+
+      const targetTokenPost = filteredPosts.findIndex(
+        (post) => post.id === page_token
+      );
+
+      return filteredPosts.splice(targetTokenPost + 1, posts_per_page);
     },
   };
 }
