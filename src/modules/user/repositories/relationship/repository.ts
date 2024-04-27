@@ -27,11 +27,21 @@ export const relationshipRepository: RelationshipRepository = {
       },
     });
   },
-  async findManyByFollowing(following_id) {
+  async findManyByFollowing({ following_id, page_token, page_size }) {
     return await prisma.relationship.findMany({
       where: {
         following_id,
       },
+      skip: !!page_token ? 1 : 0,
+      take: page_size,
+      cursor: page_token
+        ? {
+            follower_id_following_id: {
+              following_id,
+              follower_id: page_token,
+            },
+          }
+        : undefined,
     });
   },
 };
