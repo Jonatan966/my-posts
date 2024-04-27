@@ -1,61 +1,34 @@
-# User
+<div align="center">
+  <h1>My Posts</h1>
+</div>
 
-- [x] Deve ser possível criar um usuário
-  - [x] Não deve ser possível criar um usuário com o mesmo username
-- [x] Deve ser possível editar as informações básicas de um usuário
-  - [x] Não deve ser possível atualizar um usuário que não existe
-- [x] Deve ser possível editar o username de um usuário
-  - [x] Não deve ser possível atualizar um usuário que não existe
-  - [x] Não deve ser possível atribuir um novo username de um usuário existente
-  - [x] Não deve ser possível editar o username dentro do cooldown de 7 dias
+Uma API de rede social baseada em texto (Ex: Twitter/X, Threads).
 
-# Post
+## Tecnologias Utilizadas
 
-- [x] Deve ser possível criar um post
-  - [x] Não deve ser possível criar um post para um usuário não existente
-- [x] Deve ser possível excluir um post
-  - [x] Deve deletar todas as versões anteriores de um post
-  - [x] Não deve ser possível excluir um post que já foi excluido
-  - [x] Não deve ser possível excluir um post que não existe
-  - [x] Não deve ser possível excluir um post de outro usuário
-- [x] Deve ser possível republicar um post
-  - [x] Não deve ser possível republicar um post que não existe
-  - [x] Não deve ser possível republicar um post já republicado que não tenha conteúdo
-- [x] Deve ser possível editar um post
-  - [x] Deve ser possível editar uma republicação sem conteúdo (substituindo a versão atual)
-  - [x] Não deve ser possível editar um post que não existe
-  - [x] Não deve ser possível editar uma versão antiga de um post
-- [x] Deve ser possível comentar um post
-  - [x] Não deve ser possível comentar um post que não existe
-  - [x] Não deve ser possível comentar um post com versão antiga
-  - [x] Não deve ser possível comentar uma republicação sem conteúdo
+- Prisma
+- PostgreSQL
+- Fastify
+- Swagger
+- Vitest
+- Supertest
 
-# Rascunhos
+## Como Iniciar
 
-- Armazenar os usernames antigos no Redis para permanecer por pelo menos 1 mês
-- Estudar sobre paginação via token
-- Usar a lib morgan
+1. Inicie uma instância do banco PostgreSQL;
+2. Preencha todas as variáveis de ambiente necessárias. Use [esse arquivo](./.env.example) como template;
+3. Use o comando `npm run migrate` para aplicar as migrações no seu banco de dados;
+4. Use o comando `npm run dev` para iniciar a aplicação.
 
-# Rotas
+> [!NOTE]
+> A documentação da API está presente na rota `/docs`
 
-- Users
+## Futuros Passos
 
-  - [x] POST /users
-  - [x] GET /users/usuariotal
-  - [x] GET /users/usuariotal/posts
-  - [x] POST /users/auth
-  - [x] GET /users/me
-  - [x] PUT /users/me
-  - [x] PATCH /users/me/username
-  - [x] POST /users/usuario-tal/followers
-  - [x] GET /users/usuario-tal/followers
-  - [x] GET /users/usuario-tal/following
-  - [x] GET /users
-
-- Posts
-  - [x] GET /posts
-  - [x] POST /posts
-  - [x] GET /posts/post-tal
-  - [x] PUT /posts/post-tal
-  - [x] DELETE /posts/post-tal
-  - [x] GET /posts/post-tal/comments
+- [ ] Feed com os posts de quem o usuário segue
+- [ ] Foto de perfil
+- [ ] Imagens/Vídeos nas publicações
+- [ ] Armazenar nomes de usuário anteriores no Redis para bloqueá-los por 30 dias
+- [ ] Refresh token
+- [ ] Fluxo de recuperação de senha
+  - [ ] Adicionar endereço de e-mail
