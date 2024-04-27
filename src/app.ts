@@ -14,7 +14,9 @@ import { userRoutes } from "./modules/user/routes";
 import { errorHandler } from "./middlewares/error-handler";
 import { environment } from "./utils/env";
 
-const app = fastify().withTypeProvider<ZodTypeProvider>();
+const app = fastify({
+  logger: true,
+}).withTypeProvider<ZodTypeProvider>();
 
 app.register(fastifyJwt, {
   secret: environment.secret,
