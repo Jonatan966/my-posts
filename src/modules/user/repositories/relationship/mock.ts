@@ -17,9 +17,18 @@ export function makeRelationshipRepositoryMock(): RelationshipRepository {
 
       return newRelationship;
     },
-    async findManyByFollower(follower_id) {
-      return relationships.filter(
+    async findManyByFollower({ follower_id, page_token, page_size }) {
+      const filteredRelationships = relationships.filter(
         (relationship) => relationship.follower_id === follower_id
+      );
+
+      const targetTokenRelationship = filteredRelationships.findIndex(
+        (relationship) => relationship.following_id === page_token
+      );
+
+      return filteredRelationships.splice(
+        targetTokenRelationship + 1,
+        page_size
       );
     },
     async findManyByFollowing({ following_id, page_token, page_size }) {

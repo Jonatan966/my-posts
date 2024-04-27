@@ -11,6 +11,12 @@ interface FindManyByFollowingDTO {
   page_size?: number;
 }
 
+interface FindManyByFollower {
+  follower_id: string;
+  page_token?: string;
+  page_size?: number;
+}
+
 export interface RelationshipRepository {
   relationships?: relationship[];
   create(data: CreateRelationshipDTO): Promise<relationship>;
@@ -18,6 +24,6 @@ export interface RelationshipRepository {
     follower_id: string,
     following_id: string
   ): Promise<relationship | null>;
-  findManyByFollower(follower_id: string): Promise<relationship[]>;
+  findManyByFollower(filters: FindManyByFollower): Promise<relationship[]>;
   findManyByFollowing(filters: FindManyByFollowingDTO): Promise<relationship[]>;
 }

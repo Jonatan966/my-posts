@@ -44,8 +44,54 @@ describe("list user following", () => {
       created_at: new Date(),
     });
 
-    const users = await listUserFollowingUsecase("the-id");
+    const result = await listUserFollowingUsecase({ user_id: "the-id" });
 
-    expect(users?.[0]).toHaveProperty("id", "the-bla-id");
+    expect(result.users?.[0]).toHaveProperty("id", "the-bla-id");
+  });
+
+  it("should return next page token correctly", async () => {
+    userRepository.users?.push(
+      ...Array.from(new Array(25)).map((_, index) => ({
+        id: `fofo-${index}`,
+        username: "foouser",
+        password: "foobar123",
+        display_name: "Foo",
+        bio: "The foo user",
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
+        username_updated_at: null,
+      }))
+    );
+
+    relationshipRepository.relationships?.push(
+      ...Array.from(new Array(25)).map((_, index) => ({
+        follower_id: "the-bob-id",
+        following_id: `fofo-${index}`,
+        created_at: new Date(),
+      }))
+    );
+
+    const result = await listUserFollowingUsecase({ user_id: "the-bob-id" });
+
+    expect(result.next_page_token).toEqual("fofo-19");
+  });
+
+  it("should be able to pass page token", async () => {
+    const result = await listUserFollowingUsecase({
+      user_id: "the-bob-id",
+      page_token: "fofo-19",
+    });
+
+    expect(result.users[0]).toHaveProperty("id", "fofo-20");
+  });
+
+  it("should be able to set page size", async () => {
+    const result = await listUserFollowingUsecase({
+      user_id: "the-bob-id",
+      page_size: 2,
+    });
+
+    expect(result.users).toHaveLength(2);
   });
 });
